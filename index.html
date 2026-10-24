@@ -1,0 +1,3510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#173f35">
+<title>UUM Cashless Quest | Build your cashless habit</title>
+
+<style>
+:root{
+  --forest:#243f9b;--forest-2:#3659bd;--lime:#f4d22f;--cream:#f4f6fc;
+  --paper:#fff;--ink:#172449;--muted:#5c6983;--line:#e1e6f1;--orange:#f6a65b;
+  --blue:#e4edff;--shadow:0 14px 38px rgba(36,63,155,.08);--radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6;}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f6a65b;outline-offset:3px}
+.app{min-height:100vh}
+.topbar{height:76px;background:var(--forest);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1180px)/2));gap:20px;position:relative;z-index:15}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:-.5px}
+.brand-mark{height:52px;width:auto;display:block;background:#fff;padding:4px 7px;border-radius:12px}.brand small{display:block;color:#c5d8cb;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;margin-top:2px}
+.top-right{display:flex;align-items:center;gap:12px}
+.demo-pill{font-size:11px;font-weight:800;letter-spacing:.6px;border:1px solid #5b7c6e;color:#e4f1e6;border-radius:999px;padding:8px 11px}
+.avatar{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:#f5b36d;color:#51351a;font-weight:850;cursor:pointer;transition:transform .2s}
+.avatar:hover{transform:scale(1.05)}
+
+/* Profile Dropdown */
+.profile-dropdown{position:absolute;top:65px;right:max(22px,calc((100vw - 1180px)/2));background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15);width:240px;padding:12px;display:none;color:var(--ink);animation:fade .2s ease}
+.profile-dropdown.show{display:block}
+.profile-dropdown h4{margin:0 0 10px;font-size:14px;border-bottom:1px solid var(--line);padding-bottom:8px;color:var(--muted);font-weight:850;text-transform:uppercase;letter-spacing:1px;}
+.profile-btn{width:100%;text-align:left;background:transparent;border:0;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:750;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:space-between;}
+.profile-btn:hover{background:#f4f6fc;}
+.profile-btn.danger{color:#c14a1e;}
+.profile-btn.danger:hover{background:#fff0df;}
+.campus-select{width:100%;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-weight:700;margin-top:5px;outline:none;}
+
+/* Locked nav */
+.nav-btn.locked{opacity:0.5;cursor:not-allowed;}
+
+.shell{max-width:1180px;margin:0 auto;padding:26px 22px 50px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:26px}
+.sidebar{align-self:start;position:sticky;top:18px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px;box-shadow:var(--shadow)}
+.nav-label{font-size:10px;font-weight:850;letter-spacing:1.5px;color:#95a098;padding:13px 12px 8px;text-transform:uppercase}
+.nav-btn{width:100%;display:flex;align-items:center;gap:12px;border:0;background:transparent;color:#66746b;text-align:left;padding:12px;border-radius:13px;font-weight:750;font-size:13px;margin:2px 0;transition:all .2s;}
+.nav-btn:hover{background:#f4f6fc;}
+.nav-btn .ico{font-size:18px;width:23px;text-align:center}
+.nav-btn.active{background:#edf5e2;color:var(--forest)}
+.sidebar-note{margin:18px 5px 4px;padding:14px;background:#f7f8f2;border-radius:14px;font-size:12px;line-height:1.5;color:#66746b}
+.sidebar-note strong{color:var(--forest);display:block;margin-bottom:5px}
+main{min-width:0}
+.view{display:none;animation:fade .22s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.7px;font-weight:850;color:#5c7a54}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(29px,4vw,43px);letter-spacing:-1.8px;line-height:1.07;margin:10px 0 12px}
+h2{font-size:25px;letter-spacing:-.8px;margin-bottom:8px}
+h3{font-size:16px;letter-spacing:-.25px;margin-bottom:7px}
+p{color:var(--muted);line-height:1.7;font-size:14.5px;}
+.subhead{max-width:620px;margin-bottom:22px;font-size:15px;line-height:1.7;}
+
+/* ===== Reordered Hero & Wallet ===== */
+.hero{position:relative;overflow:hidden;background:var(--forest);border-radius:26px;color:#fff;padding:32px;display:grid;grid-template-columns:1.25fr .75fr;gap:20px;box-shadow:var(--shadow);margin-top: 24px;}
+.hero:after{content:"";position:absolute;width:270px;height:270px;border-radius:50%;border:1px solid rgba(255,255,255,.12);right:-70px;top:-105px;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025)}
+.hero .eyebrow{color:var(--lime)}
+.hero h1{max-width:500px}
+.hero p{color:#d1e0d6;max-width:480px;margin-bottom:22px;font-size:15px;line-height:1.7;}
+.hero-art{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;min-height:175px}
+.orbit{width:180px;height:180px;border-radius:50%;border:1px dashed rgba(255,255,255,.4);display:grid;place-items:center;position:relative}
+.orbit:before,.orbit:after{content:"";position:absolute;width:35px;height:35px;border-radius:12px;background:var(--lime);transform:rotate(12deg)}
+.orbit:before{top:7px;right:22px}.orbit:after{bottom:16px;left:5px;background:var(--orange)}
+.orbit-center{width:115px;height:115px;border-radius:32px;background:#2b6650;display:grid;place-items:center;font-size:53px;transform:rotate(-7deg);box-shadow:0 14px 25px #102c24}
+.wallet-card{padding:24px;border-radius:22px;color:#fff;background:linear-gradient(125deg,#243f9b,#3659bd 65%,#5475d6);box-shadow:0 16px 35px rgba(36,63,155,.18);overflow:hidden;position:relative;margin-bottom: 8px;}
+.wallet-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.wallet-kicker{font-size:10px;letter-spacing:1.5px;font-weight:850;opacity:.8}
+.wallet-card h2{font-size:17px;margin:8px 0 4px;color:#fff}
+.wallet-balance{font-size:34px;font-weight:900;letter-spacing:-1px}
+.wallet-card p{font-size:12px;color:#e0e7ff;margin:5px 0 0;line-height:1.5;}
+.wallet-symbol{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);font-weight:900;font-size:18px}
+.wallet-actions{display:flex;gap:10px;margin-top:20px}
+.wallet-actions .btn{min-width:110px}
+.wallet-card .btn-outline{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.08)}
+.eye-btn{background:transparent; border:0; color:#fff; opacity:0.8; cursor:pointer; display:grid; place-items:center; padding:4px; transition:opacity .2s;}
+.eye-btn:hover{opacity:1;}
+
+/* ===== Clickable Metrics ===== */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0 28px}
+.metric{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;transition:all .25s ease;}
+.metric.clickable{cursor:pointer;}
+.metric.clickable:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--forest-2);}
+.metric-top{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:12px;font-weight:750}
+.metric-icon{font-size:19px}
+.metric strong{display:block;font-size:30px;letter-spacing:-1px;margin:10px 0 4px;color:var(--ink)}
+.metric small{font-size:11px;color:var(--muted);display:block;line-height:1.4;}
+.metric small span{color:var(--forest-2);font-weight:850;}
+
+.btn{border:0;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:850;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--lime);color:var(--forest)}
+.btn-dark{background:var(--forest);color:white}
+.btn-light{background:#edf4e6;color:var(--forest)}
+.btn-outline{background:transparent;border:1px solid var(--line);color:var(--forest)}
+.btn-small{padding:9px 12px;font-size:12px}
+.btn-wa{background:#25D366;color:#fff;}
+.btn-wa:hover{background:#128C7E;}
+.hero .btn-outline{border-color:#6e8a7d;color:#fff}
+
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin:30px 0 16px}
+.section-head p{margin-bottom:0;font-size:13px;line-height:1.6;}
+.text-btn{border:0;background:transparent;color:var(--forest-2);font-weight:850;font-size:13px;padding:8px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;min-width:0}
+.card-head{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:6px 10px;font-size:10px;font-weight:850;letter-spacing:.2px;background:#edf4e6;color:#426044}
+.tag.orange{background:#fff0df;color:#8a4d19}.tag.blue{background:#e6f1f8;color:#315d77}.tag.gray{background:#eff1ed;color:#67736a}
+.mission-icon{width:44px;height:44px;border-radius:15px;background:#eef5e5;display:grid;place-items:center;font-size:22px;margin-bottom:14px}
+.mission-card p{font-size:13.5px;margin:8px 0 16px;line-height:1.6;}
+.card-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.reward-text{font-size:12px;font-weight:850;color:var(--forest)}
+.progress-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin:14px 0 8px}
+.progress{height:9px;background:#edf0e9;border-radius:999px;overflow:hidden}
+.progress span{height:100%;display:block;background:var(--forest-2);border-radius:999px;transition:width .3s}
+.passport-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px}
+.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:22px 0}
+.stamp{aspect-ratio:1;border:1px dashed #cbd5c8;border-radius:16px;display:grid;place-items:center;color:#b1bbb0;font-size:24px;background:#fafbf7}
+.stamp.filled{background:var(--lime);border:1px solid var(--lime);color:var(--forest)}
+.passport-bottom{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+
+/* ===== Demo wallet and voucher shop ===== */
+.voucher-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.voucher-card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff;padding:20px;box-shadow:0 8px 22px rgba(36,63,155,.06)}.voucher-card:before{content:"";position:absolute;right:-22px;top:-25px;width:90px;height:90px;border-radius:50%;background:#f4d22f2b}.voucher-card .voucher-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#fff3bc;font-size:25px;margin-bottom:14px}.voucher-card h3{font-size:16px;margin:0 0 6px}.voucher-card p{font-size:13px;line-height:1.6;margin:0 0 14px;color:var(--muted)}.voucher-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0}.voucher-cost{font-size:13px;font-weight:900;color:var(--forest)}.voucher-card .btn{width:100%;justify-content:center}.voucher-used{opacity:.72;background:#f7f8fc}.voucher-empty{grid-column:1/-1;padding:30px;text-align:center;border:1px dashed #cbd4e7;border-radius:18px;color:var(--muted);background:#fff}.voucher-empty strong{display:block;color:var(--ink);margin-bottom:5px}
+@media(max-width:600px){.voucher-grid{grid-template-columns:1fr}.wallet-card{padding:20px}.wallet-balance{font-size:30px}}
+
+/* Voucher Filters */
+.voucher-filters{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px;}
+.voucher-filter-btn{border:1px solid var(--line);background:#fff;color:var(--muted);font-size:12.5px;font-weight:750;padding:8px 16px;border-radius:999px;transition:all .2s;}
+.voucher-filter-btn:hover{background:#f7f8fc;color:var(--ink);}
+.voucher-filter-btn.active{background:var(--forest);color:#fff;border-color:var(--forest);}
+
+.reward-preview{background:#fff4e6;border:1px solid #f6e1c5;border-radius:18px;padding:20px;display:flex;align-items:center;gap:16px}
+.reward-emoji{width:58px;height:58px;display:grid;place-items:center;border-radius:17px;background:#ffe1b9;font-size:29px;flex-shrink:0}
+.reward-preview p{font-size:13px;margin:4px 0 0}
+.merchant{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);transition:background .2s;border-radius:12px;}
+.merchant:hover{background:#f7f8f2;}
+.merchant:last-child{border-bottom:0;padding-bottom:0}
+.merchant-icon{width:44px;height:44px;border-radius:14px;background:#f2f4eb;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.merchant-info{flex:1;min-width:0}
+.merchant-info strong{font-size:14px;display:block;margin-bottom:2px;}
+.merchant-info small{font-size:12px;color:var(--muted)}
+.merchant .tag{white-space:nowrap}
+.challenge{background:#eaf2df;border-radius:20px;padding:24px}
+.challenge-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.leader-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.leader-row:last-child{border:0}
+.rank{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#f0f2ec;font-size:13px;font-weight:850}
+.leader-name{font-size:14px;font-weight:800}.leader-sub{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.score{font-size:14px;font-weight:850;color:var(--forest)}
+.reward-item{display:flex;gap:16px;align-items:center}
+.reward-item .reward-emoji{width:64px;height:64px}
+.reward-item-info{flex:1}
+.reward-item-info p{font-size:13px;margin:4px 0}
+.safety-strip{background:#edf4f9;border:1px solid #d8e8f2;border-radius:18px;padding:18px;display:flex;align-items:start;gap:14px;margin-top:20px}
+.safety-strip .safe-icon{font-size:24px}
+.safety-strip p{font-size:13px;margin:5px 0 0;color:#536b78;line-height:1.6;}
+.notice{padding:14px 16px;border-radius:14px;background:#fff4df;color:#79501e;font-size:13px;line-height:1.6;margin:16px 0}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#163e33;color:#fff;padding:14px 20px;border-radius:14px;box-shadow:var(--shadow);font-size:13.5px;font-weight:750;transition:.25s;z-index:50;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal-backdrop{position:fixed;inset:0;background:rgba(12,31,24,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}
+.modal-backdrop.show{display:flex}
+.modal{width:min(450px,100%);background:#fff;border-radius:24px;padding:26px;box-shadow:0 25px 80px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;}
+.modal h2{font-size:24px}.modal p{font-size:14px;line-height:1.6;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+.footer{text-align:center;font-size:12px;color:#8b958c;margin-top:30px;line-height:1.7}
+.mobile-nav{display:none}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:14px}
+
+@media(max-width:850px){
+ .shell{grid-template-columns:1fr;padding:18px 15px 85px}
+ .sidebar{display:none}
+ .mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:8;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+ .mobile-nav .nav-btn{width:auto;flex-direction:column;gap:4px;padding:6px 9px;font-size:10px;margin:0}
+ .mobile-nav .nav-btn .ico{font-size:18px}
+ .topbar{height:66px;padding:0 15px}.demo-pill{display:none}
+ .hero{grid-template-columns:1fr;padding:26px}.hero-art{display:none}
+ .grid-2{grid-template-columns:1fr}
+ .profile-dropdown{right:15px;top:60px;}
+}
+
+/* ===== Improvement: One row metrics on mobile ===== */
+@media(max-width:520px){
+ .metrics{grid-template-columns:repeat(3,1fr);gap:6px;margin:15px 0 20px;}
+ .metric{padding:10px 6px;border-radius:14px;}
+ .metric strong{font-size:18px;margin:6px 0 2px;letter-spacing:0;}
+ .metric-top{font-size:9px;letter-spacing:0;}
+ .metric small{display:none;} /* Hide subtitles to fit text */
+ .metric-icon{display:none;}
+ .section-head{align-items:start}.section-head h2{font-size:22px}
+ .hero h1{font-size:34px}.hero{border-radius:21px}
+ .stamps{gap:8px}.stamp{border-radius:12px;font-size:19px}
+ .card,.passport-card{padding:18px}
+ .mobile-nav .nav-btn{padding:6px 5px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* Animated Cashless Passport collection */
+.stamp-passport{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#fff 0%,#f7f8ff 58%,#fff9e5 100%);
+  border-color:#dce4ff;
+  box-shadow:0 14px 32px rgba(36,63,155,.09);
+}
+.stamp-passport:before{
+  content:"";position:absolute;width:190px;height:190px;border-radius:50%;
+  right:-72px;top:-105px;background:radial-gradient(circle,rgba(244,210,47,.24),transparent 70%);
+  pointer-events:none;
+}
+.stamp-passport .card-head,.stamp-passport .stamps,.stamp-passport .passport-bottom,
+.stamp-passport>.progress-label,.stamp-passport>.progress{position:relative;z-index:1}
+.stamp-passport .card-head h2{color:var(--forest);letter-spacing:-.7px}
+.stamp-passport .stamps{gap:12px;margin:23px 0}
+.stamp-passport .stamp{
+  position:relative;overflow:hidden;border:2px dashed #c7d2f2;border-radius:18px;
+  color:#9ba8cc;background:rgba(255,255,255,.78);font-weight:850;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+  animation:stamp-arrive .55s cubic-bezier(.2,.8,.2,1) both;
+  animation-delay:calc(var(--stamp-index,0) * 90ms);
+}
+.stamp-passport .stamp:nth-child(1){--stamp-index:0}
+.stamp-passport .stamp:nth-child(2){--stamp-index:1}
+.stamp-passport .stamp:nth-child(3){--stamp-index:2}
+.stamp-passport .stamp:nth-child(4){--stamp-index:3}
+.stamp-passport .stamp:nth-child(5){--stamp-index:4}
+.stamp-passport .stamp:hover{transform:translateY(-5px) rotate(-3deg);box-shadow:0 9px 18px rgba(36,63,155,.14)}
+.stamp-passport .stamp.filled{
+  border:2px solid #f0ca18;color:#243f9b;
+  background:radial-gradient(circle at 35% 28%,#fff9ce 0 10%,transparent 11%),linear-gradient(145deg,#ffe975,#f4d22f 70%,#f1bd1f);
+  box-shadow:inset 0 0 0 4px rgba(255,255,255,.45),0 7px 15px rgba(218,177,0,.18);
+  animation:stamp-arrive .55s cubic-bezier(.2,.8,.2,1) both,stamp-glow 2.8s ease-in-out infinite;
+  animation-delay:calc(var(--stamp-index,0) * 90ms),1s;
+}
+.stamp-passport>.progress{height:10px;background:#e8edff}
+.stamp-passport>.progress span{background:linear-gradient(90deg,#3659bd,#6f8cff,#f4d22f);background-size:200% 100%;animation:passport-shimmer 3s linear infinite}
+@keyframes stamp-arrive{from{opacity:0;transform:translateY(12px) scale(.78)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes stamp-glow{50%{box-shadow:inset 0 0 0 4px rgba(255,255,255,.55),0 8px 20px rgba(218,177,0,.32)}}
+@keyframes passport-shimmer{to{background-position:200% 0}}
+@media(prefers-reduced-motion:reduce){
+ .stamp-passport .stamp,.stamp-passport .stamp.filled,.stamp-passport>.progress span{animation:none!important}
+}
+/* Blue-and-gold school theme accents */
+.sidebar .nav-btn.active{background:#e8edff}
+.sidebar-note{background:#f0f3fc}
+.sidebar-note strong{color:var(--forest)}
+.orbit-center{background:#3659bd}
+.btn-light,.tag,.mission-icon{background:#e8edff;color:var(--forest)}
+.tag.orange{background:#fff0df;color:#8a4d19}
+.tag.blue{background:#e4edff;color:#31538f}
+.challenge{background:#e8edff}
+.challenge .progress span{background:#3659bd!important}
+.rank{background:#eef1fa}
+
+/* ===== DuitBuddy ===== */
+.buddy-fab{position:fixed;right:22px;bottom:22px;width:70px;height:70px;border-radius:50%;border:3px solid #fff;background:var(--lime);font-size:38px;line-height:1;box-shadow:var(--shadow);z-index:9;display:grid;place-items:center;animation:bob 2.4s ease-in-out infinite; cursor:grab; touch-action:none;}
+.buddy-fab:active { cursor:grabbing; }
+.buddy-fab small{position:absolute;bottom:-9px;background:var(--forest);color:#fff;font-size:9px;font-weight:850;padding:3px 8px;border-radius:999px;white-space:nowrap}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.pet-stage{background:linear-gradient(#e8edff,#f4f6fc);border-radius:20px;padding:22px 16px;text-align:center;position:relative;overflow:hidden;}
+.pet{font-size:104px;line-height:1.1;display:inline-block;animation:bob 3s ease-in-out infinite; position:relative; z-index:2;}
+.pet.happy{animation:hop .6s ease 2}
+@keyframes hop{40%{transform:translateY(-22px) rotate(-6deg)}}
+.speech{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-size:13.5px;font-weight:700;color:var(--forest);margin:12px auto 0;max-width:340px; position:relative; z-index:2;}
+.pet-name{font-size:19px;font-weight:850;margin:14px 0 2px;text-align:center}
+.pet-stats{display:grid;gap:14px;margin-top:16px}
+.feed-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.feed-row:last-child{border-bottom:0}
+.feed-ico{width:48px;height:48px;border-radius:14px;background:#e8edff;display:grid;place-items:center;font-size:24px;flex-shrink:0}
+.feed-info{flex:1;min-width:0}
+.feed-info strong{font-size:14px;display:block}
+.feed-info small{font-size:12px;color:var(--muted)}
+
+/* ===== NEW: Heart Particle Animation ===== */
+.heart-container {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 10;
+}
+.heart-particle {
+  position: absolute; font-size: 24px; pointer-events: none;
+  animation: floatHeart 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  user-select: none;
+}
+@keyframes floatHeart {
+  0% { transform: translateY(0) scale(0.5); opacity: 1; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+}
+
+/* ===== NEW: Animated Cat ===== */
+.cat{width:200px;max-width:100%;height:auto;display:block;margin:0 auto;overflow:visible}
+.cat .tail{transform-origin:138px 165px;animation:wag 2.2s ease-in-out infinite}
+@keyframes wag{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(12deg)}}
+.cat .body{transform-origin:100px 190px;animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{50%{transform:scaleY(1.03)}}
+.cat .head{transform-origin:100px 140px;animation:tilt 4s ease-in-out infinite}
+@keyframes tilt{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.cat .blink{transform-origin:100px 90px;animation:blink 4s infinite}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+.cat .ear-l{transform-origin:70px 62px;animation:twitch 5s infinite}
+@keyframes twitch{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-10deg)}96%{transform:rotate(4deg)}}
+.cat .spark{transform-box:fill-box;transform-origin:center;animation:twinkle 1.8s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.25;transform:scale(.6)}}
+.cat .happy-eyes{display:none}
+.pet.happy .eyes{display:none}
+.pet.happy .happy-eyes{display:inline}
+
+/* NEW: Play & Sleep animations */
+.pet.excited .tail { animation: fastWag 0.15s ease-in-out infinite; }
+@keyframes fastWag { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(25deg); } }
+.pet.sleeping .eyes { display: none; }
+.pet.sleeping::after {
+  content: "💤"; position: absolute; top: 10px; right: 20px;
+  font-size: 24px; animation: floatHeart 2s infinite; z-index: 5;
+}
+.pet.playing .tail { animation: fastWag 0.25s infinite; }
+.pet.playing::before {
+  content: "⚽"; position: absolute; bottom: 20px; left: 20px;
+  font-size: 28px; animation: bounceBall 0.8s infinite alternate; z-index: 5;
+}
+@keyframes bounceBall {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-40px) scale(1.1); }
+}
+
+.buddy-fab{background:#fff}
+.buddy-fab .cat{width:58px;margin-top:-2px}
+
+/* ===== Campus Champions leaderboard ===== */
+@keyframes rise{from{opacity:0;transform:translateY(22px)}}
+@keyframes grow{from{width:0}}
+@keyframes ringgrow{from{stroke-dashoffset:377}}
+.lb-head{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:26px 28px;border-radius:24px;color:#fff;background:linear-gradient(135deg,#243f9b 0%,#3659bd 100%);box-shadow:var(--shadow);animation:rise .5s ease backwards}
+.lb-head:after{content:"";position:absolute;right:-60px;top:-80px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(244,210,47,.28),transparent 70%)}
+.lb-head>*{position:relative;z-index:1}
+.lb-head h2{margin:10px 0 4px;color:#fff;font-size:clamp(26px,4vw,34px);letter-spacing:-1.2px}
+.lb-head p{margin:0;color:#d6e0fb;font-size:14.5px}
+.lb-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(244,210,47,.16);border:1px solid rgba(244,210,47,.5);color:var(--lime);font-size:10px;font-weight:850;letter-spacing:1.2px;text-transform:uppercase}
+.lb-trophy{width:88px;height:88px;flex-shrink:0;filter:drop-shadow(0 8px 14px rgba(0,0,0,.25))}
+
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:end;margin:22px 0 18px}
+.pod{--mc:#8e9ab3;--soft:#eef1f7;position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 14px 0;overflow:hidden;background:#fff;border:1px solid var(--line);border-top:4px solid var(--mc);border-radius:20px;box-shadow:0 10px 26px rgba(36,63,155,.08);transition:transform .2s,box-shadow .2s;animation:rise .65s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+.pod.r1{--mc:#e3b800;--soft:#fff4bf;padding-top:38px}
+.pod.r3{--mc:#c47f43;--soft:#fae6d3}
+.pod:hover{transform:translateY(-6px);box-shadow:0 18px 36px rgba(36,63,155,.16)}
+.pod .crown{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:36px;height:26px}
+.pod .rank-tag{background:var(--soft);color:var(--ink);font-size:11px;font-weight:850;padding:5px 11px;border-radius:999px}
+.pod .abbr{font-size:30px;font-weight:900;letter-spacing:-1px;color:var(--forest);margin-top:10px}
+.pod.r1 .abbr{font-size:40px}
+.pod .full{font-size:12px;line-height:1.4;color:var(--muted);margin:4px 0 12px;min-height:34px}
+.pod .pts{font-size:26px;font-weight:900;letter-spacing:-.8px}
+.pod.r1 .pts{font-size:32px}
+.pod .pts small{display:block;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.pod .base{align-self:stretch;margin:16px -14px 0;display:grid;place-items:center;font-size:38px;font-weight:900;color:var(--mc);background:var(--soft);height:44px}
+.pod.r1 .base{height:78px;font-size:46px}
+.pod.r2 .base{height:56px}
+.pod.r3 .base{height:40px; display:flex; align-items:center; justify-content:center; padding-bottom:4px;}}
+
+.lb-scores{display:grid;gap:12px}
+.lb-score{--mc:#8e9ab3;--mc2:#b9c2d6;display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;transition:transform .2s,box-shadow .2s;animation:rise .55s ease backwards;animation-delay:var(--d,0s)}
+.lb-score.r1{--mc:#e3b800;--mc2:#f4d22f}
+.lb-score.r3{--mc:#c47f43;--mc2:#e3a56d}
+.lb-score:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(36,63,155,.10)}
+.lb-score .mini{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;background:var(--mc);color:var(--ink)}
+.lb-score .nm{font-size:13px;line-height:1.35}
+.lb-score .nm strong{color:var(--forest);margin-right:4px}
+.lb-score .nm span{color:var(--muted);font-size:12px}
+.lb-bar{height:10px;margin-top:8px;background:#edf0f9;border-radius:999px;overflow:hidden}
+.lb-bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--mc),var(--mc2));animation:grow 1.2s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+.lb-score .sc{font-size:20px;font-weight:900;color:var(--forest)}
+.lb-score .sc small{font-size:11px;font-weight:700;color:var(--muted);margin-left:3px}
+
+.goal{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;align-items:center;margin-top:22px;padding:26px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);animation:rise .6s ease backwards;animation-delay:.3s}
+.ring{position:relative;width:150px;height:150px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .trk{stroke:#e8edff}
+.ring .val{stroke:url(#ringGrad);animation:ringgrow 1.5s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:.4s}
+.ring-txt{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring-txt strong{font-size:34px;font-weight:900;letter-spacing:-1.5px;color:var(--forest);line-height:1}
+.ring-txt span{font-size:11px;font-weight:700;color:var(--muted);margin-top:4px}
+.goal h3{font-size:22px;margin:10px 0 6px}
+.goal p{margin:0;font-size:13.5px;line-height:1.6;}
+.goal .count{font-size:15px;font-weight:850;color:var(--forest);margin:12px 0 8px}
+
+@media(max-width:640px){
+ .lb-head{padding:20px}.lb-trophy{width:58px;height:58px}
+ .podium{grid-template-columns:1fr}
+ .pod{order:var(--o);padding-bottom:18px}
+ .pod .base{display:none}
+ .pod.r1 .abbr{font-size:34px}
+ .goal{grid-template-columns:1fr;justify-items:center;text-align:center}
+}
+
+.campus-reward-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;margin-top:20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:18px;animation:rise .6s ease backwards;animation-delay:.35s}
+.campus-reward-icon{width:56px;height:56px;border-radius:16px;background:#fff4df;display:grid;place-items:center;font-size:26px;flex-shrink:0}
+.campus-reward-info h3{font-size:18px;margin:0 0 6px;color:var(--forest)}
+.campus-reward-info p{margin:0;font-size:13.5px;line-height:1.6;}
+
+/* ===== Missions + Mini Games (merged from subcode) ===== */
+.text-sm{font-size:13px}.text-xs{font-size:12px}.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mb-0{margin-bottom:0}.mb-12{margin-bottom:12px}
+button.merchant{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;color:inherit;text-align:left;padding:14px 12px;font:inherit;}
+button.merchant:last-child{border-bottom:0}
+button.merchant:hover{background:#f7f8f2;border-radius:12px}
+.merchant-info{overflow:hidden}
+.merchant-info small{display:block}
+.merchant-info strong,.merchant-info small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arcade-card{background:var(--paper);border:1px solid var(--line);border-radius:20px;min-width:0}
+/* Mini games */
+[hidden] { display: none !important; }
+.arcade-card { margin: 18px 0; padding: 24px; }
+.arcade-card p { font-size: 13.5px; line-height:1.6; }
+.arcade-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.arcade-stats { display: flex; flex-wrap: wrap; gap: 20px; margin: 16px 0; font-size: 13.5px; }
+.arcade-message { min-height: 24px; font-size: 13px; font-weight: 750; color: var(--forest); }
+.game-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+.game-controls .btn { min-width: 95px; }
+.game-options,
+.scam-answers { display: grid; gap: 10px; margin: 18px 0; }
+.scam-answers { grid-template-columns: 1fr 1fr; }
+.game-options button,
+.scam-answers button { justify-content: flex-start; min-height: 48px; text-align: left; font-size:14px; }
+.feedback { font-size: 13px; line-height: 1.6; }
+
+.coin-arena { position: relative; height: 300px; margin: 16px 0; overflow: hidden; border: 2px solid #d8e6cc; border-radius: 15px; background: linear-gradient(#eaf4df, #f9f7e9); touch-action: pan-y; }
+.coin { position: absolute; top: -40px; font-size: 29px; pointer-events: none; user-select: none; }
+.coin-basket { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); font-size: 39px; pointer-events: none; user-select: none; }
+
+.scam-case { margin: 16px 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #f7f8f2; }
+.scam-case-text { font-size: 15px; font-weight: 750; line-height: 1.6; }
+
+.runner-arena { margin: 16px 0; overflow: hidden; border: 2px solid #d8e6cc; border-radius: 15px; background: #eaf4df; touch-action: manipulation; }
+#runnerCanvas { display: block; width: 100%; height: auto; }
+.arcade-card .runner-help { margin: 10px 0; font-size: 12px; color: var(--muted); text-align: center; }
+.runner-stats { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin: 16px 0; font-size: 13.5px; }
+
+.location-modal { width: min(650px, 100%); max-height: 85vh; overflow-y: auto; }
+.location-modal-head { display: flex; justify-content: space-between; align-items: start; gap: 14px; }
+.location-items { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.location-item { display: flex; align-items: start; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; }
+.location-item-icon { font-size: 22px; }
+.location-item strong,
+.location-item small { display: block; }
+.location-item small { margin-top: 4px; font-size: 12px; color: var(--muted); line-height:1.5; }
+
+/* ===== Daily game cap banner ===== */
+.game-daily-banner{
+  background:linear-gradient(135deg,#fff 0%,#f7f9ff 100%);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:20px 22px;
+  margin:18px 0 4px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.game-daily-banner:before{
+  content:"";
+  position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,210,47,.18),transparent 70%);
+  pointer-events:none;
+}
+.game-daily-banner>*{position:relative;z-index:1;}
+.game-daily-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.game-daily-title{display:flex;flex-direction:column;gap:6px;}
+.game-daily-title strong{font-size:15px;color:var(--forest);letter-spacing:-.2px;}
+.game-daily-count{text-align:right;}
+.game-daily-count strong{display:block;font-size:24px;font-weight:900;color:var(--forest);letter-spacing:-1px;line-height:1;}
+.game-daily-count small{font-size:12px;color:var(--muted);}
+.game-daily-bar{height:10px;background:#edf0f9;border-radius:999px;overflow:hidden;margin-top:16px;}
+.game-daily-bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#3659bd,#f4d22f);transition:width .4s ease;}
+.game-daily-banner.capped .game-daily-bar span{background:#e8784b;}
+.game-daily-banner.capped .game-daily-count strong{color:#c14a1e;}
+.game-daily-note{font-size:12px;color:var(--muted);margin:10px 0 0;line-height:1.6;}
+
+@media(max-width:850px){.mobile-nav .nav-btn{flex:1;min-width:0;padding:6px 2px}}
+@media(max-width:520px){.arcade-card{padding:18px}.location-items{grid-template-columns:1fr}.coin-arena{height:260px}.scam-answers{grid-template-columns:1fr}.game-daily-banner{padding:18px}}
+
+/* ===== Stamp reward draw ===== */
+.stamp-draw-box {
+  aspect-ratio: 1;
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(160deg, #fff, #f7f9ff);
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--forest);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  user-select: none;
+}
+.stamp-draw-box:hover:not(.disabled) {
+  transform: translateY(-4px) rotate(-2deg);
+  box-shadow: 0 10px 22px rgba(36,63,155,.16);
+  border-color: var(--lime);
+}
+.stamp-draw-box.shuffling {
+  animation: stampShuffle .45s ease-in-out infinite;
+  background: linear-gradient(160deg, #fff7cf, #f4d22f);
+  border-color: var(--lime);
+}
+.stamp-draw-box.chosen {
+  background: linear-gradient(160deg, #eaf4d8, #d0e8a4);
+  border-color: var(--forest);
+  transform: scale(1.08);
+  box-shadow: 0 14px 28px rgba(36,63,155,.2);
+}
+.stamp-draw-box.disabled {
+  opacity: .38;
+  cursor: default;
+  filter: grayscale(.5);
+}
+@keyframes stampShuffle {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  25% { transform: translateY(-6px) rotate(-4deg); }
+  75% { transform: translateY(6px) rotate(4deg); }
+}
+
+/* ===== New Payment Modals ===== */
+.pay-section-title{font-size:13px;font-weight:850;color:var(--forest);margin:20px 0 10px;display:flex;justify-content:space-between;}
+.pay-input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;font-size:18px;font-weight:850;color:var(--ink);margin-bottom:10px;}
+.pay-input:focus{border-color:var(--forest);}
+.voucher-selector{display:flex;flex-direction:column;gap:10px;max-height:180px;overflow-y:auto;padding-right:6px;}
+.voucher-radio{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:all .2s;background:#fff;}
+.voucher-radio:hover{border-color:var(--forest-2);background:#f7f9ff;}
+.voucher-radio input{accent-color:var(--forest);width:18px;height:18px;margin:0;cursor:pointer;}
+.voucher-radio-details{flex:1;}
+.voucher-radio-details strong{display:block;font-size:13.5px;color:var(--ink);margin-bottom:2px;}
+.voucher-radio-details small{font-size:12px;color:var(--muted);line-height:1.4;}
+.aa-toggle-wrap{display:flex;align-items:center;justify-content:space-between;padding:16px;background:#f0f4ff;border-radius:12px;border:1px solid var(--blue);margin-top:16px;}
+.aa-toggle-wrap label{font-size:13.5px;font-weight:750;color:var(--forest);cursor:pointer;}
+.aa-toggle-wrap input[type="checkbox"]{width:20px;height:20px;accent-color:var(--forest);cursor:pointer;}
+.aa-input-wrap{display:none;margin-top:12px;background:#f9fafc;padding:16px;border-radius:12px;border:1px dashed #bccbf0;}
+.aa-input-wrap.show{display:block;}
+.aa-input-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.aa-input-row input{width:80px;padding:10px;border:1px solid var(--line);border-radius:8px;text-align:center;font-weight:850;font-size:16px;}
+.receipt-row{display:flex;justify-content:space-between;font-size:14px;padding:10px 0;border-bottom:1px dashed var(--line);color:var(--muted);}
+.receipt-row.total{font-size:20px;font-weight:900;color:var(--forest);border-bottom:0;padding-top:14px;}
+.receipt-row.discount{color:#c14a1e;font-weight:750;}
+
+/* Donut Chart CSS */
+.donut-segment { transition: stroke-dasharray 0.5s ease; }
+
+/* ==========================================================================
+   DESIGN ONLY: colourful sticker-style icon tiles (no HTML / JS changes)
+   ========================================================================== */
+:root{
+  --ic-blue:linear-gradient(145deg,#7f9bff,#2f4fd0);--ic-blue-s:rgba(47,79,208,.32);
+  --ic-gold:linear-gradient(145deg,#ffe98a,#f2b705);--ic-gold-s:rgba(226,163,0,.34);
+  --ic-green:linear-gradient(145deg,#6fe3b3,#1ea178);--ic-green-s:rgba(30,161,120,.30);
+  --ic-coral:linear-gradient(145deg,#ffa69a,#f2557a);--ic-coral-s:rgba(242,85,122,.30);
+  --ic-purple:linear-gradient(145deg,#c3a8ff,#7650e6);--ic-purple-s:rgba(118,80,230,.30);
+  --ic-sky:linear-gradient(145deg,#7ee0ff,#2796e0);--ic-sky-s:rgba(39,150,224,.30);
+  --ic-gloss:radial-gradient(circle at 26% 20%,rgba(255,255,255,.62) 0 14%,rgba(255,255,255,0) 46%);
+}
+/* shared sticker look */
+.mission-icon,.merchant-icon,.location-item-icon,.feed-ico,.voucher-icon,.campus-reward-icon,.reward-emoji,.safe-icon,.metric-icon,.nav-btn .ico{
+  background-image:var(--ic-gloss),var(--ic-blue);
+  --ic-s:var(--ic-blue-s);
+  border:2px solid rgba(255,255,255,.9);
+  box-shadow:0 6px 14px var(--ic-s),inset 0 -3px 0 rgba(0,0,0,.08);
+  color:#fff;
+  transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease;
+}
+.mission-icon,.merchant-icon,.location-item-icon,.feed-ico,.voucher-icon,.campus-reward-icon,.reward-emoji,.safe-icon,.metric-icon{
+  text-shadow:0 2px 3px rgba(0,0,0,.18);
+}
+.mission-icon{width:50px;height:50px;border-radius:17px;font-size:25px}
+.merchant-icon{width:46px;height:46px;border-radius:15px;font-size:23px}
+.feed-ico{width:50px;height:50px;border-radius:16px;font-size:25px}
+.voucher-icon{width:52px;height:52px;border-radius:17px;font-size:26px}
+.campus-reward-icon{width:58px;height:58px;border-radius:18px;background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.reward-emoji{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.location-item-icon{width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:14px;font-size:21px}
+.safe-icon{flex-shrink:0;width:46px;height:46px;display:grid;place-items:center;border-radius:15px;font-size:24px;background-image:var(--ic-gloss),var(--ic-sky);--ic-s:var(--ic-sky-s)}
+.metric-icon{width:34px;height:34px;display:inline-grid;place-items:center;border-radius:11px;font-size:17px;font-weight:800}
+
+/* colour rotation: mission cards, home cards, static info cards */
+.grid-2>:nth-child(4n+1) .mission-icon{background-image:var(--ic-gloss),var(--ic-blue);--ic-s:var(--ic-blue-s)}
+.grid-2>:nth-child(4n+2) .mission-icon{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.grid-2>:nth-child(4n+3) .mission-icon{background-image:var(--ic-gloss),var(--ic-green);--ic-s:var(--ic-green-s)}
+.grid-2>:nth-child(4n+4) .mission-icon{background-image:var(--ic-gloss),var(--ic-coral);--ic-s:var(--ic-coral-s)}
+.mission-icon{--ic-s:var(--ic-blue-s)}
+.mission-card .mission-icon,.card .mission-icon{box-shadow:0 6px 14px var(--ic-s),inset 0 -3px 0 rgba(0,0,0,.08)}
+
+/* campus directory + location pop-up: 6-colour cycle */
+#merchantList>:nth-child(6n+1) .merchant-icon,.location-items>:nth-child(6n+1) .location-item-icon{background-image:var(--ic-gloss),var(--ic-blue);--ic-s:var(--ic-blue-s)}
+#merchantList>:nth-child(6n+2) .merchant-icon,.location-items>:nth-child(6n+2) .location-item-icon{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+#merchantList>:nth-child(6n+3) .merchant-icon,.location-items>:nth-child(6n+3) .location-item-icon{background-image:var(--ic-gloss),var(--ic-green);--ic-s:var(--ic-green-s)}
+#merchantList>:nth-child(6n+4) .merchant-icon,.location-items>:nth-child(6n+4) .location-item-icon{background-image:var(--ic-gloss),var(--ic-coral);--ic-s:var(--ic-coral-s)}
+#merchantList>:nth-child(6n+5) .merchant-icon,.location-items>:nth-child(6n+5) .location-item-icon{background-image:var(--ic-gloss),var(--ic-purple);--ic-s:var(--ic-purple-s)}
+#merchantList>:nth-child(6n+6) .merchant-icon,.location-items>:nth-child(6n+6) .location-item-icon{background-image:var(--ic-gloss),var(--ic-sky);--ic-s:var(--ic-sky-s)}
+
+/* DuitBuddy quests + vouchers */
+.feed-row:nth-child(3n+1) .feed-ico{background-image:var(--ic-gloss),var(--ic-coral);--ic-s:var(--ic-coral-s)}
+.feed-row:nth-child(3n+2) .feed-ico{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.feed-row:nth-child(3n+3) .feed-ico{background-image:var(--ic-gloss),var(--ic-sky);--ic-s:var(--ic-sky-s)}
+.voucher-grid>:nth-child(4n+1) .voucher-icon{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.voucher-grid>:nth-child(4n+2) .voucher-icon{background-image:var(--ic-gloss),var(--ic-green);--ic-s:var(--ic-green-s)}
+.voucher-grid>:nth-child(4n+3) .voucher-icon{background-image:var(--ic-gloss),var(--ic-purple);--ic-s:var(--ic-purple-s)}
+.voucher-grid>:nth-child(4n+4) .voucher-icon{background-image:var(--ic-gloss),var(--ic-coral);--ic-s:var(--ic-coral-s)}
+
+/* home metrics */
+.metric:nth-child(1) .metric-icon{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.metric:nth-child(2) .metric-icon{background-image:var(--ic-gloss),var(--ic-blue);--ic-s:var(--ic-blue-s)}
+.metric:nth-child(3) .metric-icon{background-image:var(--ic-gloss),var(--ic-coral);--ic-s:var(--ic-coral-s)}
+
+/* navigation icons (sidebar + mobile), one colour per page */
+.nav-btn .ico{width:30px;height:30px;display:inline-grid;place-items:center;flex-shrink:0;border-radius:10px;font-size:15px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.2);border-width:1.5px}
+.nav-btn[data-view="home"] .ico{background-image:var(--ic-gloss),var(--ic-blue);--ic-s:var(--ic-blue-s)}
+.nav-btn[data-view="missions"] .ico{background-image:var(--ic-gloss),var(--ic-gold);--ic-s:var(--ic-gold-s)}
+.nav-btn[data-view="games"] .ico{background-image:var(--ic-gloss),var(--ic-purple);--ic-s:var(--ic-purple-s)}
+.nav-btn[data-view="passport"] .ico{background-image:var(--ic-gloss),var(--ic-green);--ic-s:var(--ic-green-s)}
+.nav-btn[data-view="rewards"] .ico{background-image:var(--ic-gloss),var(--ic-coral);--ic-s:var(--ic-coral-s)}
+.nav-btn[data-view="campus"] .ico{background-image:var(--ic-gloss),var(--ic-sky);--ic-s:var(--ic-sky-s)}
+.nav-btn[data-view="cashflow"] .ico{background-image:var(--ic-gloss),var(--ic-green);--ic-s:var(--ic-green-s)}
+.nav-btn[data-view="safety"] .ico{background-image:var(--ic-gloss),var(--ic-sky);--ic-s:var(--ic-sky-s)}
+.nav-btn:hover .ico,.nav-btn.active .ico{transform:translateY(-2px) rotate(-6deg) scale(1.08)}
+.nav-btn.active .ico{box-shadow:0 8px 18px var(--ic-s),0 0 0 3px rgba(244,210,47,.45),inset 0 -3px 0 rgba(0,0,0,.08)}
+.mobile-nav .nav-btn .ico{width:28px;height:28px;font-size:14px}
+
+/* playful hover on cards */
+.card:hover .mission-icon,.voucher-card:hover .voucher-icon,.feed-row:hover .feed-ico,.merchant:hover .merchant-icon,.location-item:hover .location-item-icon{transform:rotate(-8deg) scale(1.1)}
+
+/* hero sticker, wallet badge, passport + draw boxes */
+.orbit-center{background-image:var(--ic-gloss),linear-gradient(145deg,#ffe98a,#f2b705 60%,#f79d3a);color:#fff;text-shadow:0 3px 6px rgba(120,70,0,.35);box-shadow:0 16px 28px rgba(0,0,0,.28),inset 0 -5px 0 rgba(0,0,0,.08);border:3px solid rgba(255,255,255,.85)}
+.wallet-symbol{background-image:var(--ic-gloss),linear-gradient(145deg,#ffe98a,#f2b705);color:#243f9b;border-color:rgba(255,255,255,.85);box-shadow:0 8px 18px rgba(0,0,0,.2),inset 0 -3px 0 rgba(0,0,0,.08)}
+.stamp-passport .stamp:nth-child(5n+1).filled{background-image:var(--ic-gloss),linear-gradient(145deg,#ffe98a,#f2b705)}
+.stamp-passport .stamp:nth-child(5n+2).filled{background-image:var(--ic-gloss),linear-gradient(145deg,#8be8bd,#1ea178);border-color:#1ea178;color:#fff}
+.stamp-passport .stamp:nth-child(5n+3).filled{background-image:var(--ic-gloss),linear-gradient(145deg,#8fa8ff,#2f4fd0);border-color:#2f4fd0;color:#fff}
+.stamp-passport .stamp:nth-child(5n+4).filled{background-image:var(--ic-gloss),linear-gradient(145deg,#ffb0a4,#f2557a);border-color:#f2557a;color:#fff}
+.stamp-passport .stamp:nth-child(5n+5).filled{background-image:var(--ic-gloss),linear-gradient(145deg,#cdb6ff,#7650e6);border-color:#7650e6;color:#fff}
+.stamp-draw-box{background-image:var(--ic-gloss),linear-gradient(160deg,#fff,#eef2ff)}
+.stamp-draw-box:nth-child(4n+1){border-color:#b9c8ff}.stamp-draw-box:nth-child(4n+2){border-color:#ffe08a}.stamp-draw-box:nth-child(4n+3){border-color:#a8ecd0}.stamp-draw-box:nth-child(4n+4){border-color:#ffc0b8}
+.buddy-fab{box-shadow:0 12px 26px rgba(36,63,155,.28),0 0 0 4px rgba(244,210,47,.35)}
+@media(max-width:520px){.mission-icon{width:46px;height:46px}.mobile-nav .nav-btn .ico{width:26px;height:26px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){.nav-btn:hover .ico,.nav-btn.active .ico,.card:hover .mission-icon,.voucher-card:hover .voucher-icon,.feed-row:hover .feed-ico,.merchant:hover .merchant-icon,.location-item:hover .location-item-icon{transform:none}}
+
+/* ==========================================================================
+   MONUMENT VALLEY THEME (design only: no HTML / JS / ID / class changes)
+   ========================================================================== */
+:root{
+  --forest:#1f3a7d;--forest-2:#3d62c4;--cream:#e4f5fb;--ink:#1a2a52;--muted:#556690;--line:#d5e8f2;
+  --sky:#d4effa;--mint:#cdeee0;--peach:#ffe5d2;--gold:#f6c94a;
+  --e1:#c7e4f1;--e2:#a8d1e5;--e3:#86b8d2;--float:rgba(31,58,125,.17);--shadow:0 18px 40px rgba(31,58,125,.12);
+}
+html{background:linear-gradient(180deg,#cfeefa 0%,#e5f6fb 42%,#fff0e4 100%) fixed;min-height:100%}
+body{background:transparent!important;color:var(--ink);line-height:1.7}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.7;
+  background:linear-gradient(135deg,rgba(255,255,255,.55) 25%,transparent 25%) -60px 0/120px 120px,
+  linear-gradient(225deg,rgba(255,255,255,.38) 25%,transparent 25%) -60px 0/120px 120px,
+  linear-gradient(45deg,rgba(158,210,232,.22) 25%,transparent 25%) 0 0/120px 120px}
+
+/* generous negative space */
+.shell{max-width:1220px;padding:44px 30px 90px;gap:44px}
+.view>.eyebrow{margin-top:6px}
+h1{margin:14px 0 18px}
+.subhead{margin-bottom:34px}
+.section-head{margin:56px 0 26px}
+.grid-2{gap:30px}
+.metrics{gap:26px;margin:36px 0 52px}
+.card,.passport-card{padding:30px}
+.hero{padding:44px;margin-top:30px}
+.view>.notice,.notice{margin:28px 0}
+
+/* top bar + sidebar */
+.topbar{border-bottom:5px solid var(--gold);box-shadow:0 8px 0 rgba(31,58,125,.12)}
+.sidebar{border:1.5px solid #fff;border-radius:14px;padding:18px 14px;background:rgba(255,255,255,.92);
+  box-shadow:5px 5px 0 var(--e1),10px 10px 0 var(--e2),22px 28px 34px var(--float)}
+.nav-btn{color:#46608d;padding:13px 12px;border-radius:10px}
+.sidebar .nav-btn.active{background:var(--sky);box-shadow:inset 3px 0 0 var(--forest)}
+.sidebar-note{background:var(--peach);color:#7a5a45;border-radius:10px}
+
+/* floating 2.5D architectural slabs */
+.card,.passport-card,.arcade-card,.voucher-card,.lb-score,.goal,.modal,.safety-strip{
+  border:1.5px solid #fff;border-radius:14px;background:#fff;
+  box-shadow:5px 5px 0 var(--e1),10px 10px 0 var(--e2),15px 15px 0 var(--e3),26px 34px 38px var(--float);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease}
+.card:hover,.voucher-card:hover,.arcade-card:hover{transform:translate(-3px,-5px);
+  box-shadow:7px 7px 0 var(--e1),14px 14px 0 var(--e2),21px 21px 0 var(--e3),32px 44px 44px var(--float)}
+.safety-strip{background:var(--mint);border-color:#fff}
+.notice{border:1.5px dashed #e8c98c;background:#fff6e5;border-radius:10px}
+.tag{border-radius:6px;background:var(--sky);color:var(--forest)}
+
+/* wallet: navy monolith with low-poly facets */
+.wallet-card{padding:34px;border-radius:14px;margin-bottom:12px;border:1.5px solid rgba(255,255,255,.7);
+  background:linear-gradient(135deg,#1f3a7d 0%,#2d52a8 60%,#4a74d0 100%);
+  box-shadow:6px 6px 0 #162b5e,12px 12px 0 #0f2049,18px 18px 0 #0a1636,28px 38px 40px rgba(15,32,73,.3)}
+.wallet-card::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.14) 0 34%,transparent 34%),
+  linear-gradient(225deg,rgba(246,201,74,.2) 0 18%,transparent 18%),
+  linear-gradient(315deg,rgba(255,255,255,.07) 0 30%,transparent 30%)}
+.wallet-card>*{position:relative;z-index:1}
+.wallet-actions{margin-top:26px}
+
+/* hero */
+.hero{border-radius:14px;background:linear-gradient(135deg,#1f3a7d,#35599f);
+  box-shadow:6px 6px 0 #162b5e,12px 12px 0 #0f2049,26px 34px 38px rgba(15,32,73,.28)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,rgba(255,255,255,.1) 0 38%,transparent 38%),linear-gradient(300deg,rgba(246,201,74,.14) 0 22%,transparent 22%)}
+.hero>*{position:relative;z-index:1}
+
+/* metrics: interactive floating geometric tiles */
+.metrics{perspective:1000px}
+.metric{position:relative;border:1.5px solid #fff;border-radius:6px;padding:26px;transform-style:preserve-3d;
+  transform:rotateX(9deg) rotateY(-9deg);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease;
+  box-shadow:-1px -1px 0 #fff inset,6px 8px 0 var(--e1),12px 16px 0 var(--e2),18px 24px 0 var(--e3),26px 40px 34px var(--float)}
+.metric::after{content:"";position:absolute;top:0;right:0;width:46px;height:46px;pointer-events:none;
+  background:linear-gradient(225deg,rgba(255,255,255,.75) 0 50%,transparent 50%)}
+.metric:nth-child(1){background:linear-gradient(160deg,#fff,#fff5d6)}
+.metric:nth-child(2){background:linear-gradient(160deg,#fff,#d9f3ea)}
+.metric:nth-child(3){background:linear-gradient(160deg,#fff,#ffe6d6)}
+.metric:hover{transform:rotateX(0) rotateY(0) translateY(-12px);
+  box-shadow:-1px -1px 0 #fff inset,8px 10px 0 var(--e1),16px 20px 0 var(--e2),24px 30px 0 var(--e3),32px 54px 40px var(--float)}
+
+/* passport: ascending low-poly staircase with 3D stamp pedestals */
+.stamp-passport{background:linear-gradient(135deg,#fff 0%,#eaf7fc 60%,#fff3e6 100%)}
+.stamp-passport .stamps{align-items:end;gap:10px;margin:34px 0 10px;padding:0 14px 14px 0}
+.stamp-passport .stamps .stamp{position:relative;overflow:visible;border-radius:6px;font-size:22px;
+  margin-bottom:calc(var(--stamp-index,0)*18px);border:2px solid #fff;color:#7d93b8;
+  background:linear-gradient(135deg,#f4fbff 0 50%,#e3f2f9 50%);
+  box-shadow:5px 0 0 var(--e2),inset 0 -3px 0 rgba(31,58,125,.06)}
+.stamp-passport .stamps .stamp::after{content:"";position:absolute;left:-2px;right:-2px;top:100%;
+  height:calc(var(--stamp-index,0)*18px + 14px);z-index:-1;
+  background:linear-gradient(90deg,#d7ecf6 0 72%,#a8d1e5 72%);box-shadow:5px 0 0 var(--e3)}
+.stamp-passport .stamps .stamp.filled{color:var(--forest);
+  background:linear-gradient(135deg,#fff1b0 0 50%,#f6c94a 50%);border-color:#fff;
+  box-shadow:5px 0 0 #d9a92b,0 0 22px rgba(246,201,74,.5)}
+.stamp-passport .stamps .stamp.filled::after{background:linear-gradient(90deg,#ffe58f 0 72%,#e2b43a 72%);box-shadow:5px 0 0 #c4962a}
+.stamp-passport>.progress{height:12px;border-radius:3px;background:var(--sky)}
+.stamp-passport>.progress span{border-radius:3px}
+
+/* campus podium: low-poly structural columns */
+.podium{gap:34px;margin:44px 0 40px;padding-right:14px}
+.pod{--top:#e3f3fa;--side:#a8d1e5;overflow:visible;border:0;border-radius:0;padding:28px 16px 0;
+  background:linear-gradient(180deg,#fff 0%,#f1f9fd 100%);box-shadow:0 22px 30px var(--float)}
+.pod.r1{--top:#fff0b0;--side:#e0b73c;background:linear-gradient(180deg,#fffdf2,#fff3c8)}
+.pod.r2{--top:#e5f6f0;--side:#8fcdb6;background:linear-gradient(180deg,#fbfffd,#dcf3ea)}
+.pod.r3{--top:#ffe9d9;--side:#e8ad89;background:linear-gradient(180deg,#fffaf6,#ffe4d1)}
+.pod::before{content:"";position:absolute;left:0;right:-14px;top:-14px;height:14px;background:var(--top);
+  transform:skewX(-45deg);transform-origin:bottom left}
+.pod::after{content:"";position:absolute;top:0;right:-14px;width:14px;height:100%;background:var(--side);
+  transform:skewY(-45deg);transform-origin:top left}
+.pod .base{background:rgba(255,255,255,.55);border-top:2px solid rgba(31,58,125,.08);color:var(--forest)}
+.pod:hover{transform:translateY(-8px)}
+.lb-head,.goal{border-radius:14px}
+.lb-head{box-shadow:6px 6px 0 #162b5e,12px 12px 0 #0f2049,26px 34px 38px rgba(15,32,73,.28)}
+.lb-bar,.lb-bar span{border-radius:3px}
+
+/* chunky 3D buttons */
+.btn{border-radius:8px;transition:transform .12s,box-shadow .12s,background .15s}
+.btn-dark{box-shadow:0 4px 0 #101f47}.btn-primary{box-shadow:0 4px 0 #c99a14}
+.btn-light{box-shadow:0 4px 0 #a8d1e5}.btn-outline{box-shadow:0 4px 0 #cfe3ee}
+.btn-dark:active,.btn-primary:active,.btn-light:active,.btn-outline:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.mobile-nav{border-top:4px solid var(--gold);box-shadow:0 -8px 24px var(--float)}
+
+@media(max-width:850px){.shell{padding:28px 18px 100px;gap:28px}.hero{padding:30px}.grid-2{gap:24px}.podium{gap:22px}}
+@media(max-width:640px){
+  .podium{gap:34px;padding-right:12px}
+  .pod::before,.pod::after{display:none}
+  .pod{box-shadow:6px 6px 0 var(--side),0 18px 26px var(--float)}
+  .metric{transform:none}
+}
+@media(max-width:520px){
+  .card,.passport-card{padding:22px}.metrics{gap:16px;margin:28px 0 40px}.section-head{margin:42px 0 20px}
+  .card,.passport-card,.arcade-card,.voucher-card,.lb-score,.goal,.modal{box-shadow:3px 3px 0 var(--e1),6px 6px 0 var(--e2),9px 9px 0 var(--e3),14px 20px 24px var(--float)}
+  .stamp-passport .stamps .stamp{margin-bottom:calc(var(--stamp-index,0)*10px)}
+  .stamp-passport .stamps .stamp::after{height:calc(var(--stamp-index,0)*10px + 12px)}
+}
+@media(prefers-reduced-motion:reduce){.metric,.metric:hover,.card:hover,.pod:hover{transform:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+<div class="brand"><img class="brand-mark" alt="UUM logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAACHCAMAAADAzpyDAAAASFBMVEX////+///+/v/+/v7w8ff32lr+2STgyXPzzi/2zyvTtkqurbSilXOBibRnbppDUpwvRJ0tRKUtRJwtQ5wvRJssQ6AnPp4eNpr5CUX/AAARtUlEQVR42q1biXKjOhC0QcYghISDLf7/T193j4Qvks1LQtVuEh80c586HL53NW2rn86N41SucXROr7Ztc/jLS1itG6eY5pRS1IVf5hSnUZDlaf4KrHVTuqQYgu/7odM19L33IeLliYh/BEhGAWtOQDKc3veA6oeh/BXw5uTI8D+hzE0XYA2ipw8BJIZhGPrOe6HidSBeCPhLChuB3WLodU8Q1Ic+xY7kDUMKHX/2fJI+xJsAf6E0BQy3g5RAGOH6LqbBiEtRvwwxis2+AP4crR0vyePR+z4mMo/UdCFRdPgr3MjNAeR6PBIQfbqM7Q/xwEgXr2DjIIzsOx8MbhYrA+Dwgr0FBlOKfbgm9yOVwVfGS/QEI8N63jqIrLCClCHgb4GAuSHMJByvgqOX8QcMBWlTDuTjIIbhpl0XvDSDtmfCBA8Hn0Oc/WBihHGEDAm2/xstmdSMOogqg3tU/GJ8UNVBfIYojb2kLfC/lP4nXktG9uCeeGQXiZJlkzJe8i54FN/7i4TYe+NuT4a2/wstB97oFo1DUvziQuAsY70ClJXWD4MnaX4ulhjz/8AD2ho6cXANhTySQii6ZMQBXPgBl01IIzJQVavGhO/jGVpftZDPSx33MQGKzhoxiJeijyBlLTB1wf1PPEPrQpCWQOmoHQMIowW7sUS6sf5CXyDATr5gEJqs8Vt4khtu7/WYUDOJBWB0aGLldhPSCUind7wE2w8b78P6DTxYANRs8DOcVjEBaBrBcGfy0iI7L3PGROS7MfpipeYWvsVPokVy0t+AVx4zTSA5kgoiNZvPb4h7EG0AnFKQHZYvQfrT5R/21zYuRXwB+g36KDVoXHS4IcGOe+GstfCL912kqQ4WkyDz7hST+8p/4r3pKibSCIAHhYwibXwJne1rCOZH2ilZzIB7QHDqu1OavgqAVBOqsmkJYjY0ZbRHfyasfU8w9KmReNQYRgmw9PyV+ExN+uirYza0+Obi8cF2J4BEw6NWz5FZEx75C/G1bYTT8vPVwk4vNN7khSFAG87Hdic84uGIB+2Ci5kRJyC+z5JQsPIqXsQ1mPQq2hsTQPn5uPN6wZOHyZH+4XyZ9skrrGRYCSuzj320lrT1MXTndh9P/MQjRxpS342fsLM9kJWdZBb4iPtoh8MZ4l2p5+4zPD5qMIGAnXGPnaaVltzBbrohTvjyyx3pk4V2zYw1bkeHgDfFobPM19i5o51N6xgblRcoywmfoPHJ8zUvCz3ruX01QX1pMtKYSuCXKbk38kxPAvMsPjfu6dr4/FgEO8HBzUCLM/AgndMrIH2Ck7pY0Ec03CGvPVJPOhQYa1ToQboxPeqUkvczE4Oc5zW6MS/XzGzm5I5PgMADXyg+5PZIW8Ao+M5j+0acUnKmeqARghunu4jliM8MeynnJeNZIOl5WW/8+Omp/oHbnig+WAPzajoX+bInyTUygl7JPugHK++C450aguHrOa8prfSEDqhpXRMj+clKvAfxtXRNMCjeVMZwbN6JkzIFs4HJGG4R5nwaVAMAbHRxnWh813Vy03XNBIQMXbOVnZWdsHRLXU7pSXoIXLITy0qklWNsLZghZpOwnmDLlXEokjrBHZjWZwPsgWi8aI2d9L4KRpReeiTP1BJBoySy1Eqk+oZ1snIKMoOKyLFucCSSVpGt/COiccTFtminsqoX5TzCoVBodKy0BeoJgimgJE3kYDlfr4AjwAMcb5zyfL1mKI0SQCI63M/Ik+XBofV0LXj17i09yyl/uYGppifEKqVwFtgi6o7PcKQOJvhxXUBiLCUuIavx8euJtnf3GIjhMI+YaXHmT0DcaVDKnG4rRPaxLF/C4QKJhsiHPB2q9G6oolDePthCc6Ci6Dn4fCa59gwb4x0WEfZvOJLIz98ACecm8mC/VAcGhimZMoiXLM8kJDC1SO48xBVQG9a/4QxxgbEMpyo9703hH5SFvBxMhwY4crpY1xAuP2J9C05czRFwjZtA4dCrbFIcmow64+XQmZXDmFtHBfwdHGlwB3ASPkoRrRsLN42X3koBWYEcyq/hRvqKzkpOcdN0U3rZU4f5Xx+Lt/w1HJUlKhdRVld0Ew4MNu5JNgwdvORj/QEz201ZrLHUT5H5vmVECDxBehTonJu/gGuMmwp7wCw5Ugnj6XKTlcPiJnVGfgvHvJrcVKsCmV0xhWoG8CC58rL5C9k15KYycvgryNCE1yjyqqVAXk7NaA/xazjq5pHCSzerxKZIS3AW6npr1oyHyf0VnDPhyVUXyzuY1Q2lpobyUnR/w8wivNqNoOUdmDawtpIt+gjnc1Au92u4Q1uEZyWtH6grgEtswwRfXIpE90dwo0UhRbUoXTlIU6gnwULd9JdweHpWOUzzGdIFR/NGHGVSXDXlj+BcNfQ0w6S7iakO0wUExeAVfEpO9BdwjblNNk1SYIIUoJq0A29JhimmZXv7cPIA34XDXYpq9oOUg5bArKi3nn1RzOYruJdMDMz5HG7zK+pPWn5U80FVxxYOPocbRY/BLcrdD9P6KVy7uTHLls9JtWZtkHa+2sE+3LK4J7goT/UVXLUE6/JWOGsP+bvZ7cLNOen+S4HL6gG7efn4B5x1QweVCqyk4yXhCnez24cjL0lOgVvyyLbVKzef4CbZGVJNVnK0c2UOgX3Yf8CxiGzaYxtzgZOiog59UZYXONg5AnfI8JO0c8KpzzyUUP4E9zHP8wcu/FhtIOGsVGgdmesY98cl26fw//wM5wyu6xlK+wJXegS94Nwj3MeyImfHldc1WmAC71hpkZmmqcBL9il8aN2D48QN4btQN2ya+QqH5x+nRFYltYbVDfmYc2RvmLoz2yO4MSZ9aBrnHTiNN7wVCkwdfLG7N7iVLWFdNoEyJ/JBMlYTpz0E+8RObWMQ/w7HSqobNjj25FlLvsoOwqklvjVmUSjj8a8U0ny1is8daplrhSQbIC9wRViCgyH0vvRKXzUzj7Xv3LZsZ0BIwGG5RxHlLAUa791pdiqm9U0zy8Sjwg1qz3X9uyFMD31LCGiFNBE5UJmhtmIMoXghSXf/kJvym91pfEpDMLgOeeC+V1nnZEMDjrBBzseVUy+2qfh8Hb7IsjVvH5rSsr57lTAnsCF2m1eJbCeFd585U7nZuOGPdUnzNWuo5LM6n/jIkhKMQIZABcrL/A5HTewZEZK1O/W3ujyvEYGmq9vAGsA0wJuZ2ijLz9SVCdo6S1dp7XsRQVbWD4JDvNsiwk68+8hxmqYInyJ3bNzsoipCmgqbKxPZCU7m/Xh3bzU+xLuaZr5Ec9ke/LK6GjNMeyXnk1rba+l9uDXxO1HOcyeal9b2mSEkhRLNlTy85SqAg4aPdtt5QaWf5nxblht+Y19CjyEDLb76PVcJ1ktVrnKIylWoqbuZmDnG0aLATF7CLVCGTBRrdGAkrHnEWybGXqOyWPZylGeySWsVyVue+QoXbZo0e6VSX8NVK4eBskdqeWYqOxo+7GXRz3BFM7sHzVTs+wTOzA48v6qXPpUagVYXL2GvRniBIzc5K1dyHPL8JXWmmJH+Z7DcwSqgkJE+hN0K6AVuZoudEzdoV8jLF3DNppiWw3ZeFVDJa5ma7dV3L3DLNc1wgXi4GOd0fYR70cxNU9SvGWwehIdgc5HtCOnq1EwWok97cIntdRpclvlRVZR6rrtwVr3KpgcpptjGeG6v9Y+1efcMh/KAaVFmZwbMX8jSPuVc3mXpn/LHXm1eS1XV5uo8bEPMKrxHuKk+PxOVmw2PbYPDl/RhrKmg4OD7z/fOwzb79bOxTVVCpXjrqziQUHumZOOH7suAp6WRsjqSQRafYrQ0Rj5zDZ2791UKcXWUx65RKENkcnMqXSPHKGO5M1U1lvoga1YhzYTZfdSqwd3Td5qKu3eN+kIdXFh7bGqvtpK89cTak1c6/rFs/Gp0Swvj7DLNN2Wa5LQ73NPpm+/dvSfW165GqqHNleWWLdfkIx+fVRM24I5tw9zoBr3M+ZY5JlEaPz1WesgqhlOzdfz6TQmXsUQlWl5Z+5JuIggdqSvhrivlnnzmNVsmNl/XLDRXKiOrTchLaUrRy85mBQoHpX8qUxgGtTpLt5YzSD8vVXg05XLzMSnNXNdZKmxzheZeed08RWfdWm3MWNOG3drjw8wVxKyzr412ZHqnR8tj3Zhsnm2bDtpIaAxGueaDkTeHqih45DUrKFxrL7pws4vrVWsq6rQfpZu3UvowhQQbo+77uNXYQP1rHfaol0frtHPRIq0MeTSD5nGOgHfWm+/qkIS6+Uie9D26MuQp12FDe/Rg7UYcqLqtWrF5mKnhw9prCTagtylJI/IQcaotSE3S2D5ta0L5yem2NStAHlokV6ckAyMrUe9TEvZK5Ka7zrYPqqmflbdWbWmUtafRubKtMk651AgbK5m8NncT1/RVkSa1h+ZpwjWU/sM24eI4fohr8WRFTVjLzbYNijx3Gm2lY8ylcEVmUE08+aGOBIf++jjhKspSFssKea15slTEl4qatI4rqHgl2raMCbCY3CxWbvO7sob1tvpg08l+82RlOkl2wusXPFHSWuFhxZzpJgS4SE0Ws/A6nbT7PTqwjbxjWUAo7tQXz9m2d7ycp6KXVaENnFWY0Qa0k3jCdLXcri/ENS/j9buf1g5mZSesofJzoZps8862rPdOOReDuxGthoJYQkE/vBNX5+aVm2Vubikg6EsrJ10oytc0PRVzI7KHj9mmd9D7U3sf9FbRGHHH9rAzOC9rXsPjVsDxrNk8AVkNZRb8peK7riY1mFvmpKDdtgIeJAO1fN8haZoSFyrew86D9hzWAjgXB23FnIGBzWEY3PPOQ99/JrmHPaPKzeG+0dFy1aEPGvcaYr0+ykhyDmWdpGyQcOvHNojIp919I42equFpqLjtqyDWFkDOYXF96OJvKpUF1tzRWKAm2yDScmq7t73FkKZ9xx4JXSp7TRUPGnPSRPuWGcvVSMpl0rrtddy3f1ABxrIEGbL7bPtnUgqoroc2+6CeZR9H7uRU9zMTOcndds2RbcXiadeISyHaINrVk6cNGR+oZb2trbptk4o66s6nU9llL2O5ky07tM+bVFawcBsRrHSfLaYZO/0laC0llM2tbU+M/46tc2eA8jqf4cmOh+3NuicGnptUmBpk99Ve2riyD0E0b2ln3YJrbJlBXz0eG1zH42F7iZ6rbsExB62C818uMTJMJq3k3lScSn4vO37ttumx9cJsx28qO34s5roiuBTbr7bqtcGI1Ha2GVjQGvC2wdh8Y4NxsJVQlKzMvv61sWz7mT2HGtqRV42atO45WXR7FPzTfuYIr8TBrvGFHeBwcf/eB9UerzaACDco040GWNzzQ0SwXd6RWsl+jUcJTOOw3bbvbbsSjwvewdv4Xu0k0jYqu7xHBGWccdLWbdJCeh9y0BkQLR1/d5eXm8Ncspw9jJC7S+zvSl3ui8N1dZhqMtG1UM4kKXj2gg3tO2chKn0wUc9FLx9s9z+CxOZ1LxrJedmLpgHwLAQ3m9l6nL558qKpW9+QH3XUr8EKFjowsdNKCyXv0VZwBKelxV7tpO+j3bfM2RVi9yXxrIMNVrwWze877YbVq5hh/96zrzF8V24P9LEdiwy4sz1zlTHWXBq2jX31mHV4RjrMMJCDRp95/H9nWGh/cn+s+gc7ReKjWnddN3QP547wX5y7yA+F6tgvPzn/EO20BXOKYGEZnFS7kMbsiaS10a6fY0iRJ2lIf1ii+8npjnZiJFL30avPMPfh0vtVS6M8HcOhrXXIElnOoScZOf3osIz6QNegM0Dy1tAMEBNk+x13XACsdIqoIYjNOinzs6M5DJiTzgEpIfQXz3NNoFFwCUUUTVNv0hoGNfwn9/ODTjrlJI5CIUAaFyCDnT8KaeCULGRfj1VxnfJXp5zKGa6Yo7yutwXAmToBHB6R4RaPnRpjCH/bfP/ZcbhRJ9S6zcpo8xy0lN5WPaE2/s2ROEW0dI31/F2toooBMjm7JouGf3fgj3NDZnrvpwtnq1Oavz3OqGKcxyW3Y0D64+/PTt4zrnpapR4N3U6GfhfsP2Ruww4qYn28AAAAAElFTkSuQmCC"><div>UUM Cashless Quest<small>Build the habit. Earn the perks.</small></div></div>
+    <div class="top-right">
+      <span class="demo-pill">HACKATHON DEMO · SAMPLE DATA</span>
+      <button class="btn btn-outline btn-small" id="resetDemoBtn" type="button" style="color:#fff; border-color:rgba(255,255,255,.5);">⟲ Reset demo</button>
+      <div class="avatar" id="profileBtn" aria-label="Student profile">S</div>
+    </div>
+    
+    <!-- Profile Dropdown -->
+    <div class="profile-dropdown" id="profileMenu">
+      <h4>User Profile</h4>
+      <div id="profileAuthBtns">
+        <!-- Injected by JS -->
+      </div>
+      <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--line);">
+        <label style="font-size:11px;font-weight:850;color:var(--muted);display:block;margin-bottom:4px;">My Campus</label>
+        <select id="campusSelect" class="campus-select">
+          <option value="CAS">College of Arts and Sciences (CAS)</option>
+          <option value="COLGIS">College of Law, Govt & Int'l Studies</option>
+          <option value="COB">College of Business</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="nav-label">Your journey</div>
+      <button class="nav-btn active" data-view="home"><span class="ico">⌂</span>Home</button>
+      <button class="nav-btn" data-view="missions"><span class="ico">◎</span>Missions</button>
+      <button class="nav-btn" data-view="games"><span class="ico">🎮</span>Mini Games</button>
+      <button class="nav-btn" data-view="passport"><span class="ico">▦</span>Stamp</button>
+      <button class="nav-btn" data-view="rewards"><span class="ico">♧</span>Rewards</button>
+      <button class="nav-btn" data-view="campus"><span class="ico">♙</span>Campus Challenge</button>
+      <div class="sidebar-note"><strong>🌱 Small steps count</strong>Cashless Quest helps you practise digital-payment habits. It never processes a real payment.</div>
+    </aside>
+
+    <main>
+      <section class="view active" id="view-home">
+        
+        <section class="wallet-card" aria-labelledby="walletTitle">
+          <div class="wallet-top">
+            <div>
+              <span class="wallet-kicker">YOUR DIGITAL WALLET · DEMO</span>
+              <h2 id="walletTitle">Wallet Balance</h2>
+              <div style="display:flex; align-items:center; gap:10px; margin: 5px 0;">
+                <div class="wallet-balance" id="walletBalance">RM ***</div>
+                <button id="privacyToggleBtn" class="eye-btn" aria-label="Toggle Privacy">
+                  <!-- SVG injected by JS -->
+                </button>
+              </div>
+              <p>Simulated funds only — no real money is moved.</p>
+            </div>
+            <div class="wallet-symbol" aria-hidden="true">RM</div>
+          </div>
+          <div class="wallet-actions">
+            <button class="btn btn-primary" id="topUpBtn" type="button">＋ Top Up</button>
+            <button class="btn btn-outline" id="payBtn" type="button">↗ Pay</button>
+          </div>
+        </section>
+
+        <div class="hero">
+          <div>
+            <div class="eyebrow">Your campus. Your quest.</div>
+            <h1>Make cashless<br>your new habit.</h1>
+            <p>Turn everyday campus moments into missions. Collect stamps, unlock rewards and help UUM grow a more cashless community.</p>
+            <button class="btn btn-primary" data-go="missions">Start a mission <span aria-hidden="true">→</span></button>
+            <button class="btn btn-outline" data-go="cashflow" style="margin-left:6px">Cash Flow 📊</button>
+          </div>
+          <div class="hero-art" aria-hidden="true"><div class="orbit"><div class="orbit-center">✦</div></div></div>
+        </div>
+
+        <!-- ===== Improvement: One row metrics on mobile ===== -->
+        <div class="metrics">
+          <div class="metric clickable" data-go="rewards">
+            <div class="metric-top">Quest points <span class="metric-icon">✧</span></div>
+            <strong id="pointsHome">0</strong>
+            <small>Earned by completing demo missions <span>→</span></small>
+          </div>
+          <div class="metric clickable" data-go="passport">
+            <div class="metric-top">My stamps <span class="metric-icon">▦</span></div>
+            <strong id="stampsHome">0 / 5</strong>
+            <small>Until your demo lunch reward <span>→</span></small>
+          </div>
+          <div class="metric">
+            <div class="metric-top">Active streak <span class="metric-icon">♨</span></div>
+            <strong id="streakHome">0 days</strong>
+            <small>Sample streak for this prototype</small>
+          </div>
+        </div>
+
+        <div class="section-head"><div><div class="eyebrow">One good next step</div><h2>Your next mission</h2><p>Keep it simple. Build the habit one moment at a time.</p></div><button class="text-btn" data-go="missions">All missions →</button></div>
+        <div class="grid-2" id="featuredMissions"></div>
+
+        <div class="section-head"><div><div class="eyebrow">Almost there</div><h2>Your Cashless Passport</h2></div><button class="text-btn" data-go="passport">Open passport →</button></div>
+        <div class="passport-card stamp-passport" id="homePassport"></div>
+
+        <div class="safety-strip"><div class="safe-icon">🛡️</div><div><strong>Pause. Check. Pay safely.</strong><p>Before confirming a real digital payment, check the recipient name and amount in your payment app. Never share your PIN or one-time password.</p><button class="text-btn" data-go="safety" id="safetyJump">Learn safe payment habits →</button></div></div>
+      </section>
+
+      <!-- ===== NEW: Cash Flow Page ===== -->
+      <section class="view" id="view-cashflow">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <h1>Cash Flow</h1>
+          <button class="btn btn-dark" data-go="home">✕ Exit</button>
+        </div>
+        
+        <div class="grid-2" style="margin-bottom:24px;">
+          <div class="card" style="text-align:center; padding:30px; background:linear-gradient(135deg, var(--forest) 0%, var(--forest-2) 100%); color:#fff; border:0;">
+            <div class="eyebrow" style="color:var(--lime); margin-bottom:8px;">Total Spent</div>
+            <h2 id="totalSpentDisplay" style="font-size:36px; margin:0; color:#fff; letter-spacing:-1.5px;">RM 0.00</h2>
+            <p style="color:#d6e0fb; margin-top:10px; font-size:13px; margin-bottom:0;">Total amount spent on campus.</p>
+          </div>
+          <div class="card" style="text-align:center; padding:30px; background:linear-gradient(135deg, #2b6650 0%, #3ea07b 100%); color:#fff; border:0;">
+            <div class="eyebrow" style="color:#c5d8cb; margin-bottom:8px;">Total Saved</div>
+            <h2 id="totalSavedDisplay" style="font-size:36px; margin:0; color:#fff; letter-spacing:-1.5px;">RM 0.00</h2>
+            <p style="color:#d6e0fb; margin-top:10px; font-size:13px; margin-bottom:0;">Saved using vouchers & rewards.</p>
+          </div>
+        </div>
+
+        <div class="grid-2" style="align-items:start;">
+          <div class="card">
+            <h3 style="margin-bottom:16px;">Spent vs Saved</h3>
+            <div id="donutChartContainer" style="display:flex; justify-content:center; align-items:center; height:220px; position:relative;">
+              <!-- SVG Donut Chart -->
+            </div>
+            <div id="donutLegend" style="margin-top:24px; display:flex; flex-wrap:wrap; gap:12px; justify-content:center;"></div>
+          </div>
+          <div class="card">
+            <h3 style="margin-bottom:16px; border-bottom:1px solid var(--line); padding-bottom:10px;">Transaction History</h3>
+            <div id="transactionList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+              <!-- Injected by JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-missions">
+        <div class="eyebrow">Take the next small step</div>
+        <h1>Choose your mission.</h1>
+        <p class="subhead">Every mission is designed to make trying digital payments easier, more rewarding or more social. Complete buttons update this demo profile only.</p>
+        <div class="grid-2" id="allMissions"></div>
+        <div class="notice">Demo mode: mission completion and points are simulated. The prototype does not verify real bank or e-wallet transactions.</div>
+
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Explore UUM options</div>
+            <p>Specific outlets and digital-payment acceptance are not verified.</p>
+          </div>
+        </div>
+        <div class="card" id="merchantList"></div>
+      </section>
+
+      <!-- Mini games -->
+      <section class="view" id="view-games">
+        <div class="eyebrow">Play, learn and earn</div>
+        <h1>Mini Games 🎮</h1>
+        <p class="subhead">Play interactive games and learn how to make safer digital-payment decisions.</p>
+
+        <div class="game-daily-banner" id="gameDailyBanner">
+          <div class="game-daily-top">
+            <div class="game-daily-title">
+              <span class="tag blue">Daily game limit</span>
+              <strong>Quest Points earned from arcade games today</strong>
+            </div>
+            <div class="game-daily-count">
+              <strong><span id="gameDailyText">0</span> / 100</strong>
+              <small>pts from games</small>
+            </div>
+          </div>
+          <div class="game-daily-bar"><span id="gameDailyBar" style="width:0%"></span></div>
+          <p class="game-daily-note" id="gameDailyNote">Fair-play cap: resets at midnight. Learning and practice always work — points just stop at the daily limit.</p>
+        </div>
+
+        <!-- Game 1 -->
+        <div class="arcade-card" id="safetyGame">
+          <div class="arcade-header">
+            <div><span class="tag">Game 1</span><h2>🛡️ Safety Challenge</h2></div>
+            <span class="tag orange">30 pts · first completion</span>
+          </div>
+          <p>Choose the safest action in each situation. The mission reward is +30 Quest Points on your first full completion.</p>
+          <div class="arcade-stats">
+            <span>Correct: <strong id="gameCorrect">0 / 3</strong></span>
+            <span>Quest Points: <strong id="gamePoints">0</strong></span>
+            <span>Status: <strong id="gameAvailable">Ready</strong></span>
+          </div>
+          <div id="gameQuestion">
+            <span class="tag blue" id="questionNumber">Question 1 of 3</span>
+            <h3 class="mt-12" id="questionText"></h3>
+            <div class="game-options" id="gameOptions"></div>
+            <div class="feedback" id="gameFeedback" role="status" aria-live="polite"></div>
+            <button class="btn btn-dark" id="nextGameQuestion" hidden>Next Question →</button>
+          </div>
+          <div id="gameComplete" hidden>
+            <div class="mission-icon">🏆</div>
+            <h2>Great Job!</h2>
+            <p id="gameFinalScore"></p>
+            <p id="gameFinalMessage"></p>
+            <button class="btn btn-dark" id="restartGame">Play Again</button>
+          </div>
+        </div>
+
+        <!-- Game 2 -->
+        <div class="arcade-card" id="coinGame">
+          <div class="arcade-header">
+            <div><span class="tag">Game 2</span><h2>🪙 Coin Catcher</h2></div>
+            <span class="tag orange">30 sec · up to 20 pts</span>
+          </div>
+          <p>Catch the falling coins and stars with your basket! Use the buttons, arrow keys or tap the game area to move.</p>
+          <div class="arcade-stats">
+            <span>Game Score: <strong id="coinScore">0</strong></span>
+            <span>Time: <strong id="coinTime">30</strong>s</span>
+          </div>
+          <div class="coin-arena" id="coinArena" aria-label="Coin catching game area">
+            <div class="coin-basket" id="coinBasket">🧺</div>
+          </div>
+          <div class="game-controls">
+            <button class="btn btn-outline" id="basketLeft">⬅️ Left</button>
+            <button class="btn btn-outline" id="basketRight">Right ➡️</button>
+          </div>
+          <div class="game-controls">
+            <button class="btn btn-dark" id="startCoinGame">Start Game</button>
+          </div>
+          <p class="arcade-message" id="coinMessage" role="status" aria-live="polite">Press Start Game to begin!</p>
+        </div>
+
+        <!-- Game 3 -->
+        <div class="arcade-card" id="scamGame">
+          <div class="arcade-header">
+            <div><span class="tag">Game 3</span><h2>🚨 Scam or Safe?</h2></div>
+            <span class="tag blue">5 situations · up to 10 pts</span>
+          </div>
+          <p>Read each situation and decide whether it is safe or suspicious. Each correct answer earns 2 Quest Points (subject to daily cap).</p>
+          <div class="arcade-stats">
+            <span>Game Score: <strong id="scamScore">0</strong></span>
+            <span>Question: <strong id="scamProgress">1 / 5</strong></span>
+          </div>
+          <div class="scam-case">
+            <div class="scam-case-text" id="scamQuestion"></div>
+            <div class="scam-answers" id="scamAnswers">
+              <button class="btn btn-dark" data-scam-answer="scam">🚨 Scam / Unsafe</button>
+              <button class="btn btn-light" data-scam-answer="safe">✅ Safe</button>
+            </div>
+            <p class="arcade-message" id="scamFeedback" role="status" aria-live="polite"></p>
+            <button class="btn btn-dark" id="nextScamQuestion" hidden>Next Situation →</button>
+            <button class="btn btn-outline" id="restartScamGame" hidden>Play Again</button>
+          </div>
+        </div>
+
+        <!-- Game 4 -->
+        <div class="arcade-card" id="runnerGame">
+          <div class="arcade-header">
+            <div><span class="tag">Game 4</span><h2>🏃 Cashless Runner</h2></div>
+            <span class="tag orange">30 sec · up to 20 pts</span>
+          </div>
+          <p>Run across the campus, jump over scam traps and collect coins! How far can you go?</p>
+          <div class="runner-stats">
+            <span>Score: <strong id="runnerScore">0</strong></span>
+            <span>Coins: <strong id="runnerCoins">0</strong></span>
+            <span>Time: <strong id="runnerTime">30</strong>s</span>
+          </div>
+          <div class="runner-arena">
+            <canvas id="runnerCanvas" width="800" height="260" aria-label="Cashless Runner game. Jump over obstacles and collect coins."></canvas>
+          </div>
+          <p class="runner-help">Press SPACE or ↑ to jump. On mobile, tap the game area or JUMP.</p>
+          <div class="game-controls">
+            <button class="btn btn-dark" id="startRunner">▶ Start Running</button>
+            <button class="btn btn-outline" id="jumpRunner">⬆ JUMP</button>
+          </div>
+          <p class="arcade-message" id="runnerMessage" role="status" aria-live="polite">Press Start Running to begin!</p>
+        </div>
+
+        <div class="notice">
+          All arcade games now earn Quest Points, but there's a <strong>daily cap of 100 pts</strong> across all games to keep the quest fair.
+          The Safety Challenge's 30 pt reward only counts on first completion, and the "Play a Game" mission completes once from <em>any</em> arcade game.
+        </div>
+      </section>
+
+      <section class="view" id="view-passport">
+        <div class="eyebrow">Small moments. Visible progress.</div><h1>My Stamps</h1>
+        <p class="subhead">Collect a stamp for each qualifying demo milestone. In a real rollout, stamps would need a trusted transaction-verification process.</p>
+        <div class="passport-card stamp-passport" id="fullPassport"></div>
+        <div class="grid-2" style="margin-top:16px">
+          <div class="card"><div class="mission-icon">🎯</div><h3>How to earn stamps</h3><p>Choose a cashless mission, follow its steps and record a sample completion. A real version could verify eligible activity with participating merchants.</p></div>
+          <div class="card"><div class="mission-icon">🎁</div><h3>Your next milestone</h3><p id="passportMilestone">Collect 3 more stamps to reach your demo reward.</p><button class="btn btn-dark btn-small" data-go="rewards">View reward options →</button></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-rewards">
+        <div class="eyebrow">Progress with a purpose</div><h1>Rewards worth working toward.</h1>
+        <p class="subhead">Collect vouchers with Quest Points and use them in this simulated prototype. Vouchers and wallet credits have no real-world value.</p>
+
+        <div class="section-head"><div><div class="eyebrow">Your collection</div><h2>My Available Vouchers</h2><p>Vouchers you own and can still use.</p></div><span class="tag blue" id="voucherCount">1 available</span></div>
+        
+        <div class="voucher-filters" id="ownedFilters">
+          <button class="voucher-filter-btn active" data-filter="all">All</button>
+          <button class="voucher-filter-btn" data-filter="cashback">Cashback</button>
+          <button class="voucher-filter-btn" data-filter="fnb">F&B Discount</button>
+          <button class="voucher-filter-btn" data-filter="specific">Specific Store</button>
+          <button class="voucher-filter-btn" data-filter="draw">Passport Draw</button>
+        </div>
+
+        <div class="voucher-grid" id="ownedVouchers"></div>
+
+        <div class="section-head"><div><div class="eyebrow">Trade points for perks</div><h2>Voucher Exchange Shop</h2><p>Your balance: <strong><span id="shopPoints">0</span> Quest Points</strong></p></div></div>
+
+        <div class="voucher-filters" id="shopFilters">
+          <button class="voucher-filter-btn active" data-filter="all">All</button>
+          <button class="voucher-filter-btn" data-filter="cashback">Cashback</button>
+          <button class="voucher-filter-btn" data-filter="fnb">F&B Discount</button>
+          <button class="voucher-filter-btn" data-filter="specific">Specific Store</button>
+        </div>
+
+        <div class="voucher-grid" id="voucherShop"></div>
+        <div class="notice">Demo only: voucher redemption, cashback credits and wallet payments are simulated locally in this browser.</div>
+
+        <div class="section-head"><div><div class="eyebrow">Other ways to celebrate</div><h2>Quest milestones</h2></div></div>
+        <div class="grid-2">
+          <div class="card"><div class="mission-icon">🔥</div><h3>Habit Builder</h3><p>Complete three missions in the demo to celebrate your consistency.</p><span class="tag" id="habitBadge">In progress</span></div>
+          <div class="card"><div class="mission-icon">🌏</div><h3>Campus Contributor</h3><p>Join the shared goal to encourage a more digitally connected campus.</p><span class="tag blue">Community milestone</span></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-campus">
+        <div class="eyebrow">Better together</div><h1>UUM Cashless Challenge.</h1>
+        <p class="subhead">Friendly competition can give students a shared reason to try digital payments. These rankings use illustrative sample data, not official faculty results.</p>
+
+        <div class="lb-head">
+          <div>
+            <span class="lb-badge">Weekly ranking · Demo data</span>
+            <h2>Campus Champions</h2>
+            <p>Three schools. One cashless campus.</p>
+          </div>
+          <svg class="lb-trophy" viewBox="0 0 64 64" role="img" aria-label="Trophy">
+            <path d="M18 8h28v14a14 14 0 0 1-28 0z" fill="#F4D22F"/>
+            <path d="M18 14H8c0 10 5 16 12 17M46 14h10c0 10-5 16-12 17" fill="none" stroke="#F4D22F" stroke-width="4" stroke-linecap="round"/>
+            <rect x="28" y="36" width="8" height="10" fill="#E3B800"/>
+            <rect x="19" y="46" width="26" height="9" rx="3" fill="#fff"/>
+            <path d="M26 14l3 6 6-3-1 8" fill="none" stroke="#fff8d6" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+          </svg>
+        </div>
+        <div class="campus-reward-card">
+  <div class="campus-reward-icon">🎁</div>
+  <div class="campus-reward-info">
+    <h3>School Challenge Rewards</h3>
+    <p>
+      🥇 <strong>1st Place (College of Arts and Sciences / CAS):</strong> 300 Quest Points<br>
+      🥈 <strong>2nd Place School:</strong> 100 Quest Points<br>
+      🥉 <strong>3rd Place School:</strong> 50 Quest Points<br>
+      <span style="font-size: 11px; color: var(--muted); display: block; margin-top: 4px;">All students from the respective winning schools will receive their points as a reward after the event ends!</span>
+    </p>
+  </div>
+</div>
+
+        <div class="podium" id="podium" role="list" aria-label="Top three schools"></div>
+
+        <div class="section-head"><div><div class="eyebrow">Sample data</div><h2>Participation scores</h2><p>Sample participation points, not spending amounts.</p></div></div>
+        <div class="lb-scores" id="leaderboard"></div>
+        
+        <div class="notice">A real challenge should use transparent scoring, avoid exposing personal spending, and prevent duplicate or fraudulent activity.</div>
+      </section>
+
+      <section class="view" id="view-safety">
+        <div class="eyebrow">Confidence comes first</div><h1>Pay safely, every time.</h1>
+        <p class="subhead">Digital payments should feel convenient and safe. Practise these checks before making a real transaction.</p>
+        <div class="card">
+          <h2>Quick safety check</h2><p>Before you confirm a digital payment, what should you check first?</p>
+          <div id="quizOptions" style="display:grid;gap:9px;margin:18px 0">
+            <button class="btn btn-outline" data-answer="wrong" style="justify-content:flex-start">A. Pay quickly before the offer ends</button>
+            <button class="btn btn-outline" data-answer="correct" style="justify-content:flex-start">B. Confirm the recipient and amount in your payment app</button>
+            <button class="btn btn-outline" data-answer="wrong" style="justify-content:flex-start">C. Share my one-time password if asked</button>
+          </div>
+          <div id="quizFeedback" role="status" aria-live="polite"></div>
+        </div>
+        <div class="grid-2" style="margin-top:16px">
+          <div class="card"><div class="mission-icon">🔎</div><h3>Check before confirming</h3><p>Review the recipient name and amount shown by your payment app.</p></div>
+          <div class="card"><div class="mission-icon">🔐</div><h3>Keep secrets private</h3><p>Never share your PIN or one-time password. Be cautious of urgent or suspicious requests.</p></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-demo">
+        <div class="eyebrow">Supporting demonstration</div><h1>Try a simulated cashless moment.</h1>
+        <p class="subhead">This screen demonstrates the idea of a digital-payment journey. It does not connect to a bank, e-wallet or PayNet system and will not move real money.</p>
+        <div class="card">
+          <span class="tag orange">Simulation only</span>
+          <h2 style="margin-top:14px">Campus lunch demo</h2>
+          <p>Choose a sample merchant and amount to preview a confirmation state. This is not a real payment.</p>
+          <form id="demoForm">
+            <label for="merchantSelect" style="display:block;font-size:12px;font-weight:800;margin:16px 0 7px">Sample merchant</label>
+            <select id="merchantSelect" required style="width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:white;color:var(--ink)">
+              <option value="Kafe Siswa">Kafe Siswa</option><option value="Gerai Utara">Gerai Utara</option><option value="Campus Mart">Campus Mart</option>
+            </select>
+            <label for="amountInput" style="display:block;font-size:12px;font-weight:800;margin:16px 0 7px">Demo amount (RM)</label>
+            <input id="amountInput" type="number" min="0.50" max="100" step="0.10" value="8.50" required style="width:100%;padding:12px;border:1px solid var(--line);border-radius:11px">
+            <div class="notice">No QR is scanned, no payment is sent, and no actual transaction is verified.</div>
+            <button class="btn btn-dark" type="submit">Preview demo confirmation</button>
+          </form>
+          <div id="demoResult" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <div class="footer">UUM Cashless Quest · Hackathon prototype · All balances, merchants, rankings and rewards are sample data.<br>Not a payment service. No real transactions are processed.</div>
+      <section class="view" id="view-buddy">
+  <button class="text-btn" data-go="home">← Back home</button>
+  <div class="eyebrow">Your cashless companion</div>
+  <h1>Meet DuitBuddy.</h1>
+  <p class="subhead">Complete cashless quests to feed your cat. Every meal earns Quest Points. Missed a day? No problem. Your buddy just offers a fresh start.</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="pet-stage" id="petStage">
+        <div class="heart-container" id="heartContainer"></div>
+        <div class="pet" id="petFace"></div>
+        <div class="speech" id="petSpeech"></div>
+      </div>
+      <div class="pet-name" id="petName">Kitten Duit</div>
+      <div style="text-align:center"><span class="tag orange" id="petStreak">🔥 0 day streak</span></div>
+      <div class="pet-stats">
+        <div><div class="progress-label" style="margin-top:0"><span>Energy</span><span id="petEnergyTxt">60%</span></div><div class="progress"><span id="petEnergy" style="width:60%"></span></div></div>
+        <div><div class="progress-label" style="margin-top:0"><span id="petNextTxt">Next evolution</span><span id="petXpTxt">0 XP</span></div><div class="progress"><span id="petXp" style="width:0%;background:var(--lime)"></span></div></div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>Today's feeding quests</h2>
+      <p>Complete a quest to feed DuitBuddy and earn points. Demo mode: no real payment is checked.</p>
+      <div id="buddyQuests"></div>
+    </div>
+  </div>
+</section>
+    </main>
+  </div>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="nav-btn active" data-view="home"><span class="ico">⌂</span>Home</button>
+    <button class="nav-btn" data-view="missions"><span class="ico">◎</span>Missions</button>
+    <button class="nav-btn" data-view="games"><span class="ico">🎮</span>Games</button>
+    <button class="nav-btn" data-view="passport"><span class="ico">▦</span>Stamp</button> 
+    <button class="nav-btn" data-view="rewards"><span class="ico">♧</span>Rewards</button>
+    <button class="nav-btn" data-view="campus"><span class="ico">♙</span>Campus</button>
+  </nav>
+</div>
+
+<button class="buddy-fab" id="buddyFab" aria-label="Open DuitBuddy">🐱<small>Feed me!</small></button>
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal"><div class="eyebrow">Cashless Quest</div><h2 id="modalTitle">Ready for your next milestone?</h2><p id="modalText">This is a demo action.</p><div class="modal-actions"><button class="btn btn-outline" id="modalCancel">Not now</button><button class="btn btn-dark" id="modalConfirm">Continue</button></div></div>
+</div>
+
+<!-- Campus location modal -->
+<div class="modal-backdrop" id="locationModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="locationModalTitle">
+  <div class="modal location-modal">
+    <div class="location-modal-head">
+      <div>
+        <div class="eyebrow">Campus directory</div>
+        <h2 id="locationModalTitle">Campus location</h2>
+      </div>
+      <button class="btn btn-outline btn-small" type="button" id="locationModalClose">✕ Close</button>
+    </div>
+    <p id="locationModalIntro">Browse example shops and services at this location.</p>
+    <div class="location-items" id="locationModalItems"></div>
+    <div class="notice">Sample directory only. Current tenants and digital-payment acceptance have not been verified.</div>
+  </div>
+</div>
+
+<!-- Stamp reward draw modal -->
+<div class="modal-backdrop" id="stampDrawBackdrop" role="dialog" aria-modal="true" aria-labelledby="stampDrawTitle">
+  <div class="modal" style="width:min(520px,100%)">
+    <div class="eyebrow">Lucky draw</div>
+    <h2 id="stampDrawTitle">Pick a stamp to reveal your reward 🎁</h2>
+    <p id="stampDrawIntro">Each box hides a different prize. Tap one!</p>
+
+    <div id="stampDrawBoxes" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0;">
+      <!-- 5 boxes injected by JS -->
+    </div>
+
+    <div id="stampDrawResult" hidden style="text-align:center;padding:14px 0;">
+      <div id="stampDrawIcon" style="font-size:46px;line-height:1;"></div>
+      <h3 id="stampDrawName" style="margin:8px 0 4px;color:var(--forest);"></h3>
+      <p id="stampDrawDesc" style="font-size:13px;margin:0 0 12px;"></p>
+      <p style="font-size:12px;color:var(--muted);margin:0;">See you tomorrow! 👋</p>
+    </div>
+
+    <div class="modal-actions" id="stampDrawActions">
+      <button class="btn btn-outline" id="stampDrawCancel">Not now</button>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-backdrop" id="payModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="payModalTitle">
+  <div class="modal" style="width:min(480px,100%)">
+    <div class="eyebrow">Checkout</div>
+    <h2 id="payModalTitle">Enter Payment</h2>
+    
+    <label style="font-size:12px;font-weight:850;color:var(--forest);display:block;margin:15px 0 7px;">Amount (RM)</label>
+    <input type="number" id="payAmountInput" class="pay-input" placeholder="0.00" step="0.01" min="0.5">
+    
+    <div class="aa-toggle-wrap">
+      <label for="aaToggle">👥 Split Bill (AA Payment)</label>
+      <input type="checkbox" id="aaToggle">
+    </div>
+
+    <div class="aa-input-wrap" id="aaInputWrap">
+      <div class="aa-input-row">
+        <span style="font-size:13px;color:var(--muted);">Total people (including you):</span>
+        <input type="number" id="aaFriendsInput" value="2" min="2" max="20">
+      </div>
+    </div>
+
+    <div class="pay-section-title">
+      <span>Select Voucher (Auto-sorted by best savings)</span>
+      <span id="payDiscountLabel" style="color:var(--lime); display:none;">-RM0.00</span>
+    </div>
+    
+    <div class="voucher-selector" id="payVoucherList">
+      <!-- Injected by JS -->
+    </div>
+
+    <div class="modal-actions" style="margin-top:24px;">
+      <button class="btn btn-outline" type="button" id="payModalCancel">Cancel</button>
+      <button class="btn btn-primary" type="button" id="payModalProceed">Proceed</button>
+    </div>
+  </div>
+</div>
+
+<!-- Receipt Confirmation Modal -->
+<div class="modal-backdrop" id="receiptModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="receiptTitle">
+  <div class="modal" style="width:min(400px,100%)">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:40px;line-height:1;margin-bottom:10px;">🧾</div>
+      <h2 id="receiptTitle">Payment Summary</h2>
+    </div>
+
+    <div class="receipt-row">
+      <span>Original Price</span>
+      <span id="receiptSubtotal">RM0.00</span>
+    </div>
+    <div class="receipt-row discount">
+      <span>Discount</span>
+      <span id="receiptDiscount">-RM0.00</span>
+    </div>
+    <div class="receipt-row">
+      <span>Time</span>
+      <span id="receiptTime">--:--</span>
+    </div>
+    <div class="receipt-row total">
+      <span>Total to Pay</span>
+      <span id="receiptTotal">RM0.00</span>
+    </div>
+
+    <div id="receiptAASection" style="display:none;background:#f0f4ff;padding:16px;border-radius:12px;margin-top:16px;border:1px solid var(--blue);">
+      <div style="font-size:12px;font-weight:850;color:var(--forest);text-align:center;">AA Payment / Split Bill</div>
+      <div style="font-size:24px;font-weight:900;color:var(--forest);text-align:center;margin:5px 0;" id="receiptPerPerson">RM0.00</div>
+      <div style="font-size:12px;color:var(--muted);text-align:center;" id="receiptAADesc">per person (2 people)</div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:24px;flex-direction:column;gap:10px;">
+      <button class="btn btn-primary" style="width:100%;" type="button" id="confirmPayBtn">Confirm & Pay</button>
+      <button class="btn btn-wa" style="width:100%;display:none;" type="button" id="whatsappShareBtn">Share via WhatsApp</button>
+      <button class="btn btn-outline" style="width:100%;" type="button" id="receiptCancelBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-backdrop" id="loginModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="modal" style="width:min(380px,100%)">
+    <div class="eyebrow">Security Check</div>
+    <h2 id="loginTitle">Login Required</h2>
+    <p id="loginSubtitle">Enter your password to access Cashless Quest.</p>
+    
+    <div id="loginAuthSection">
+      <input type="password" id="loginPasswordInput" class="pay-input" placeholder="Enter password" style="font-size:16px;">
+      <button class="text-btn" id="forgotPasswordBtn" style="padding:0; font-size:12px; margin-top:-5px;">Forget password?</button>
+    </div>
+
+    <div id="loginResetSection" style="display:none;">
+      <input type="password" id="newPasswordInput" class="pay-input" placeholder="New password" style="font-size:16px; margin-top:10px;">
+      <p style="font-size:11px; color:var(--muted); margin-bottom:0;">Enter a new password to reset it.</p>
+    </div>
+
+    <p id="loginError" style="color:#c14a1e; font-size:12px; font-weight:750; display:none; margin-top:8px;">Incorrect password. Try again.</p>
+
+    <div class="modal-actions" style="margin-top:24px;">
+      <button class="btn btn-outline" type="button" id="loginCancelBtn">Cancel</button>
+      <button class="btn btn-primary" type="button" id="loginConfirmBtn">Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- Top Up Modal -->
+<div class="modal-backdrop" id="topUpModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="topUpTitle">
+  <div class="modal" style="width:min(380px,100%)">
+    <div class="eyebrow">Reload Wallet</div>
+    <h2 id="topUpTitle">Top Up</h2>
+    <p>Enter the amount you want to add to your demo wallet.</p>
+    
+    <label style="font-size:12px;font-weight:850;color:var(--forest);display:block;margin:15px 0 7px;">Amount (RM)</label>
+    <input type="number" id="topUpAmountInput" class="pay-input" value="25.00" step="0.50" min="1" style="font-size:20px;">
+    
+    <div class="modal-actions" style="margin-top:24px;">
+      <button class="btn btn-outline" type="button" id="topUpCancelBtn">Cancel</button>
+      <button class="btn btn-primary" type="button" id="topUpConfirmBtn">Confirm Top Up</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ================================================================
+   UUM Cashless Quest — Demo Script
+   ================================================================ */
+
+const STORAGE_KEY = "uumCashlessQuestDemoV2";
+const BUDDY_KEY   = "duitBuddyDemoV2";
+
+const GAME_DAILY_CAP       = 100;
+const COIN_SESSION_CAP     = 20;
+const RUNNER_SESSION_CAP   = 20;
+const SCAM_SESSION_CAP     = 10;
+const COIN_POINTS_PER_UNIT = 5;
+const RUNNER_POINTS_PER_UNIT = 20;
+const SCAM_POINTS_PER_CORRECT = 2;
+
+const initialState = {
+  points: 0, stamps: 0, completed: [], streak: 0, redeemed: false,
+  walletBalance: 0, totalSpent: 0, totalSaved: 0, transactions: [], progress: {}, gameRewardClaimed: false,
+  vouchers: [],
+  gamesToday: { date: "", earned: 0 },
+  stampDraw: { date: "", claimed: false, reward: null },
+  isLoggedIn: false, password: "1234", privacyMode: true, userCampus: "COS"
+};
+
+let state = { ...initialState };
+let pendingPaymentMission = null;
+
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (!state.stampDraw || typeof state.stampDraw !== "object") {
+    state.stampDraw = { date: "", claimed: false, reward: null };
+  }
+  if (saved && typeof saved.points === "number" && typeof saved.stamps === "number") {
+    state = { ...initialState, ...saved };
+    if (!Array.isArray(state.vouchers)) state.vouchers = [];
+    if (!Array.isArray(state.transactions)) state.transactions = [];
+    if (typeof state.walletBalance !== "number" || !Number.isFinite(state.walletBalance)) state.walletBalance = 0;
+    if (typeof state.totalSpent !== "number" || !Number.isFinite(state.totalSpent)) state.totalSpent = 0;
+    if (typeof state.totalSaved !== "number" || !Number.isFinite(state.totalSaved)) state.totalSaved = 0;
+    if (!state.progress || typeof state.progress !== "object" || Array.isArray(state.progress)) state.progress = {};
+    if (!state.gamesToday || typeof state.gamesToday !== "object" || !state.gamesToday.date) {
+      state.gamesToday = { date: "", earned: 0 };
+    }
+    if (typeof state.gamesToday.earned !== "number" || !Number.isFinite(state.gamesToday.earned)) {
+      state.gamesToday.earned = 0;
+    }
+    if (typeof state.isLoggedIn !== "boolean") state.isLoggedIn = false;
+    if (typeof state.password !== "string" || !state.password) state.password = "1234";
+    if (typeof state.privacyMode !== "boolean") state.privacyMode = true;
+    if (typeof state.userCampus !== "string") state.userCampus = "COS";
+  }
+} catch (e) {}
+
+if (!state.vouchers || state.vouchers.length === 0) {
+  state.vouchers = [{
+    id: "start-50", name: "50% Discount Voucher", type: "discount", value: 50,
+    description: "Welcome gift! 50% off a sample campus purchase.", icon: "🎟️", category: "fnb", used: false
+  }];
+}
+
+/* ================================================================
+   Helpers
+   ================================================================ */
+const $ = id => document.getElementById(id);
+const money = amount => `RM${Math.max(0, Number(amount) || 0).toFixed(2)}`;
+const displayMoney = amount => state.privacyMode ? "RM ***" : money(amount);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
+
+function gameTodayStr() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+
+function refreshDailyGames() {
+  if (!state.gamesToday || typeof state.gamesToday !== "object") state.gamesToday = { date: "", earned: 0 };
+  const today = gameTodayStr();
+  if (state.gamesToday.date !== today) {
+    state.gamesToday = { date: today, earned: 0 };
+    save();
+  }
+}
+
+function gameDailyRemaining() {
+  refreshDailyGames();
+  return Math.max(0, GAME_DAILY_CAP - state.gamesToday.earned);
+}
+
+function awardGamePoints(rawPoints) {
+  if (!Number.isFinite(rawPoints) || rawPoints <= 0) return 0;
+  refreshDailyGames();
+  const remaining = GAME_DAILY_CAP - state.gamesToday.earned;
+  const awarded = Math.min(Math.floor(rawPoints), remaining);
+  if (awarded > 0) {
+    state.points += awarded;
+    state.gamesToday.earned += awarded;
+    save();
+  }
+  return awarded;
+}
+
+/* ================================================================
+   Missions & Data
+   ================================================================ */
+const missions = [
+  { id: "first",   icon: "🍱", title: "First Cashless Lunch",    level: "Beginner",      tagClass: "",       points: 50, stamps: 1, cta: "Start mission",
+    desc: "Explore a campus food stall and learn what to check before paying digitally." },
+  { id: "repeat",  icon: "🔁", title: "Three Cashless Moments",  level: "Habit builder", tagClass: "orange", points: 30, stamps: 1, times: 3, cta: "Log a moment",
+    desc: "Choose digital payment for three everyday purchases this week. Log each moment to earn points and a stamp." },
+  { id: "play",    icon: "🎮", title: "Play a Game",             level: "Fun",           tagClass: "",       points: 40, stamps: 1, cta: "Play a game",
+    desc: "Play any arcade game once — Safety Challenge, Coin Catcher, Scam or Safe?, or Runner — to complete this mission.",
+    target: "coinGame", hint: "Play any arcade game to complete this mission." },
+  { id: "safe",    icon: "🛡️", title: "Smart & Safe",            level: "Confidence",    tagClass: "",       points: 30, stamps: 0, cta: "Take the challenge",
+    desc: "Finish the Safety Challenge in Mini Games to complete this mission.",
+    target: "safetyGame", hint: "Answer all 3 questions in the Safety Challenge to complete this mission." }
+];
+
+const MISSION_MODAL_TEXT = {
+  first:  "Imagine choosing digital payment for your next campus lunch. In this demo, confirming the mission records sample progress only.",
+  repeat: "Log one cashless moment: choosing digital payment for an everyday purchase. This demo records sample progress—not verified payment activity."
+};
+
+const LEADERBOARD_BASE = [
+  { abbr:"CAS",    name:"College of Arts and Sciences", basePoints:182 },
+  { abbr:"COLGIS", name:"College of Law, Government and International Studies", basePoints:156 },
+  { abbr:"COB",    name:"College of Business", basePoints:141 }
+];
+const CROWN_SVG = '<svg class="crown" viewBox="0 0 36 26" aria-hidden="true"><path d="M3 22L1 6l9 7 8-11 8 11 9-7-2 16z" fill="#F4D22F" stroke="#D9A800" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+
+const VOUCHER_SHOP = [
+  { id:"cashback-2",  name:"RM2 Cashback", type:"cashback", value:2,  cost:50,  description:"Use this voucher to credit RM2 into your demo wallet.", icon:"💸", category:"cashback" },
+  { id:"cashback-3",  name:"RM3 Cashback", type:"cashback", value:3,  cost:70,  description:"Use this voucher to credit RM3 into your demo wallet.", icon:"💵", category:"cashback" },
+  { id:"cashback-5",  name:"RM5 Cashback", type:"cashback", value:5,  cost:110, description:"Use this voucher to credit RM5 into your demo wallet.", icon:"💰", category:"cashback" },
+  
+  { id:"fnb-10", name:"10% F&B Discount", type:"discount", value:10, cost:40, description:"10% off any food and beverage on campus.", icon:"🍔", category:"fnb" },
+  { id:"fnb-20", name:"20% F&B Discount", type:"discount", value:20, cost:80, description:"20% off any food and beverage on campus.", icon:"🍟", category:"fnb" },
+  { id:"fnb-30", name:"30% F&B Discount", type:"discount", value:30, cost:120, description:"30% off any food and beverage on campus.", icon:"🍕", category:"fnb" },
+  
+  { id:"store-mixue", name:"10% off Mixue", type:"discount", value:10, cost:30, description:"10% off at Mixue (located in Vmall).", icon:"🍦", category:"specific" },
+  { id:"store-kafe",  name:"15% off Kafe Siswa", type:"discount", value:15, cost:50, description:"15% off at Kafe Siswa.", icon:"🍛", category:"specific" }
+];
+
+const STAMP_REWARDS = [
+  { id:"pts-50",      kind:"points",   value:50,  icon:"✨", name:"50 Quest Points",       desc:"A tidy bundle of Quest Points.", category:"draw" },
+  { id:"pts-100",     kind:"points",   value:100, icon:"💎", name:"100 Quest Points",      desc:"A big stash of Quest Points!", category:"draw" },
+  { id:"cash-2",      kind:"cashback", value:2,   icon:"💸", name:"RM2 Cashback",          desc:"Credited straight to your demo wallet.", category:"draw" },
+  { id:"voucher-20",  kind:"voucher",  value:20,  icon:"🏷️", name:"20% Discount Voucher",  desc:"A sample 20% off voucher for your next campus treat.", category:"draw" },
+  { id:"cash-5",      kind:"cashback", value:5,   icon:"💰", name:"RM5 Cashback",          desc:"A generous RM5 credit to your demo wallet.", category:"draw" }
+];
+
+let ownedFilter = "all";
+let shopFilter = "all";
+
+/* Voucher filter buttons (My Vouchers + Exchange Shop) */
+$("ownedFilters").addEventListener("click", e => {
+  const btn = e.target.closest("[data-filter]");
+  if (!btn) return;
+  ownedFilter = btn.dataset.filter;
+  document.querySelectorAll("#ownedFilters .voucher-filter-btn")
+    .forEach(b => b.classList.toggle("active", b === btn));
+  renderVouchers();
+});
+
+$("shopFilters").addEventListener("click", e => {
+  const btn = e.target.closest("[data-filter]");
+  if (!btn) return;
+  shopFilter = btn.dataset.filter;
+  document.querySelectorAll("#shopFilters .voucher-filter-btn")
+    .forEach(b => b.classList.toggle("active", b === btn));
+  renderVouchers();
+});
+
+/* ================================================================
+   Security / Auth Logic
+   ================================================================ */
+function renderProfileMenu() {
+  const authBtns = $("profileAuthBtns");
+  
+  if (state.isLoggedIn) {
+    authBtns.innerHTML = `
+      <button class="profile-btn danger" id="logoutBtn">Log Out</button>
+    `;
+  } else {
+    authBtns.innerHTML = `
+      <button class="profile-btn" id="openLoginBtn"><span>Log In</span> <span style="font-size:10px;background:var(--lime);padding:2px 6px;border-radius:4px;color:var(--forest);">Required</span></button>
+    `;
+  }
+}
+
+function showLoginModal() {
+  $("loginModalBackdrop").classList.add("show");
+  $("loginTitle").textContent = "Login Required";
+  $("loginSubtitle").textContent = "Enter your password to access Cashless Quest.";
+  $("loginAuthSection").style.display = "block";
+  $("loginResetSection").style.display = "none";
+  $("loginPasswordInput").value = "";
+  $("newPasswordInput").value = "";
+  $("loginError").style.display = "none";
+  $("loginConfirmBtn").textContent = "Login";
+}
+
+function logout() {
+  state.isLoggedIn = false;
+  state.privacyMode = true;
+  save();
+  go("home");
+  render();
+  showToast("Logged out successfully.");
+}
+
+/* ================================================================
+   Vouchers
+   ================================================================ */
+function renderVouchers() {
+  const owned = Array.isArray(state.vouchers) ? state.vouchers : [];
+  const available = owned.filter(v => !v.used);
+  const countEl = $("voucherCount"); if (countEl) countEl.textContent = `${available.length} available`;
+  const shopPtsEl = $("shopPoints"); if (shopPtsEl) shopPtsEl.textContent = state.points;
+
+  const ownedEl = $("ownedVouchers");
+  if (ownedEl) {
+    let filteredOwned = owned;
+    if (ownedFilter !== "all") filteredOwned = owned.filter(v => v.category === ownedFilter);
+
+    ownedEl.innerHTML = filteredOwned.length
+      ? filteredOwned.map(v => {
+          const isCashback = v.type === "cashback";
+          const btnText = v.used ? "✓ Used" : (isCashback ? "Use & add to wallet" : "Use at Checkout");
+          const isDisabled = v.used || !isCashback;
+          
+          return `<article class="voucher-card ${v.used ? "voucher-used" : ""}">
+            <div class="voucher-icon">${esc(v.icon || "🎟️")}</div>
+            <h3>${esc(v.name)}</h3>
+            <p>${esc(v.description || "Demo voucher")}</p>
+            <div class="voucher-meta">
+              <span class="tag ${v.used ? "gray" : v.type === "cashback" ? "blue" : "orange"}">${v.used ? "Used" : v.type === "cashback" ? "Cashback" : "Discount"}</span>
+              <span class="voucher-cost">${v.type === "cashback" ? money(v.value) : `${v.value}% OFF`}</span>
+            </div>
+            <button class="btn ${isDisabled ? "btn-outline" : "btn-dark"} btn-small" onclick="useVoucher('${v.id}')" ${isDisabled ? "disabled" : ""}>
+              ${btnText}
+            </button>
+          </article>`;
+        }).join("")
+      : `<div class="voucher-empty"><strong>No vouchers here yet</strong>Exchange Quest Points in the shop below.</div>`;
+  }
+
+  const shopEl = $("voucherShop");
+  if (shopEl) {
+    let filteredShop = VOUCHER_SHOP;
+    if (shopFilter !== "all") filteredShop = VOUCHER_SHOP.filter(v => v.category === shopFilter);
+
+    shopEl.innerHTML = filteredShop.map(v => `<article class="voucher-card">
+        <div class="voucher-icon">${v.icon}</div>
+        <h3>${esc(v.name)}</h3>
+        <p>${esc(v.description)}</p>
+        <div class="voucher-meta">
+          <span class="tag ${v.type === "cashback" ? "blue" : "orange"}">${v.type === "cashback" ? "Cashback" : "Discount"}</span>
+          <span class="voucher-cost">${v.cost} pts</span>
+        </div>
+        <button class="btn ${state.points >= v.cost ? "btn-primary" : "btn-outline"} btn-small" onclick="exchangeVoucher('${v.id}')" ${state.points < v.cost ? "disabled" : ""}>
+          ${state.points >= v.cost ? "Exchange points" : "Need more points"}
+        </button>
+      </article>`).join("");
+  }
+}
+
+function useVoucher(id) {
+  const v = state.vouchers.find(x => x.id === id);
+  if (!v || v.used) { showToast("This voucher has already been used or is unavailable."); return; }
+  if (v.type === "cashback") {
+    const amount = Number(v.value) || 0;
+    if (amount <= 0) { showToast("This cashback voucher is invalid."); return; }
+    state.walletBalance = Math.round((state.walletBalance + amount) * 100) / 100;
+    v.used = true; save(); render(); showToast(`${money(amount)} cashback added to your demo wallet!`);
+  } else {
+    showToast("Discount vouchers can only be used at Checkout.");
+  }
+}
+
+function exchangeVoucher(id) {
+  const v = VOUCHER_SHOP.find(x => x.id === id); if (!v) return;
+  if (state.points < v.cost) { showToast(`You need ${v.cost - state.points} more Quest Points.`); return; }
+  
+  state.points -= v.cost;
+  state.vouchers.push({ ...v, id: `${v.id}-${Date.now()}`, used: false });
+  save(); render(); 
+  
+  openModal({
+    title: "Redeemed Successfully! 🎉",
+    text: `You have successfully exchanged ${v.cost} points for ${v.name}. Your remaining points: ${state.points}.`,
+    confirmLabel: "Awesome",
+    onConfirm: closeModal
+  });
+}
+
+/* ================================================================
+   Passport, Leaderboard & Cash Flow
+   ================================================================ */
+function passportMarkup() {
+  const n = Math.min(5, state.stamps);
+  const ready = n >= 5 && !state.stampDraw.claimed;
+
+  let footerHtml;
+  if (ready) {
+    footerHtml = `
+      <div class="passport-bottom">
+        <div>
+          <strong>🎁 Reward ready!</strong>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:4px">Five stamps collected — draw your mystery reward!</div>
+        </div>
+        <button class="btn btn-primary btn-small" data-stamp-draw="open">Open reward 🎁</button>
+      </div>`;
+  } else if (state.stampDraw.claimed) {
+    footerHtml = `
+      <div class="passport-bottom">
+        <div>
+          <strong>✓ Reward claimed today</strong>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:4px">Come back tomorrow to collect a new set of 5 stamps.</div>
+        </div>
+      </div>`;
+  } else {
+    footerHtml = `
+      <div class="passport-bottom">
+        <div>
+          <strong>${n} of 5 stamps</strong>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:4px">${5 - n} more stamp${5 - n === 1 ? "" : "s"} to your demo reward</div>
+        </div>
+        <button class="btn btn-light btn-small" data-go="missions">Find a mission →</button>
+      </div>`;
+  }
+
+  const progressPct = state.stampDraw.claimed ? 100 : n * 20;
+
+  return `<div class="card-head">
+      <div>
+        <span class="tag">Lunch milestone</span>
+        <h2 style="margin-top:10px">Your stamp collection</h2>
+        <p style="font-size:13px;margin-bottom:0">Five stamps unlock a mystery reward — draw once per day.</p>
+      </div>
+      <div style="font-size:31px">🎟️</div>
+    </div>
+    <div class="stamps" aria-label="${n} of 5 passport stamps collected">
+      ${Array.from({ length: 5 }, (_, i) =>
+        `<div class="stamp ${i < n ? "filled" : ""}" aria-label="${i < n ? "Collected" : "Not yet collected"}">${i < n ? "✓" : i + 1}</div>`
+      ).join("")}
+    </div>
+    ${footerHtml}
+    <div class="progress-label"><span>Reward progress</span><span>${progressPct}%</span></div>
+    <div class="progress"><span style="width:${progressPct}%"></span></div>`;
+}
+
+function renderLeaderboard() {
+  let dynamicLeaderboard = LEADERBOARD_BASE.map(school => {
+    let pts = school.basePoints;
+    if (school.abbr === state.userCampus) {
+      pts += state.points;
+    }
+    return { abbr: school.abbr, name: school.name, points: pts };
+  });
+
+  const sorted = dynamicLeaderboard.sort((a, b) => b.points - a.points).map((s, i) => ({ ...s, rank: i + 1 }));
+  const max = sorted[0].points || 1;
+  const ord = ["1st", "2nd", "3rd"];
+  const podiumOrder = [sorted[1], sorted[0], sorted[2]];
+  const delays = [.15, 0, .3];
+  const podiumEl = $("podium");
+  if (podiumEl) {
+    podiumEl.innerHTML = podiumOrder.map((s, k) => `<article class="pod r${s.rank}" role="listitem" style="--o:${s.rank};--d:${delays[k]}s" aria-label="${ord[s.rank-1]} place: ${esc(s.name)}, ${s.points} sample points">
+        ${s.rank === 1 ? CROWN_SVG : ""}
+        <span class="rank-tag">${ord[s.rank-1]} place</span>
+        <div class="abbr">${esc(s.abbr)}</div>
+        <div class="full">${esc(s.name)}</div>
+        <div class="pts">${s.points}<small>sample pts</small></div>
+        <div class="base" aria-hidden="true">${s.rank}</div>
+      </article>`).join("");
+  }
+
+  const lbEl = $("leaderboard");
+  if (lbEl) {
+    lbEl.innerHTML = sorted.map((s, i) => `<div class="lb-score r${s.rank}" style="--d:${(.2 + i * .15).toFixed(2)}s">
+        <div class="mini" aria-hidden="true">${s.rank}</div>
+        <div>
+          <div class="nm"><strong>${esc(s.abbr)}</strong><span>${esc(s.name)}</span></div>
+          <div class="lb-bar" role="progressbar" aria-label="${esc(s.abbr)} sample participation points" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${s.points}">
+            <span style="width:${(s.points / max * 100).toFixed(1)}%"></span>
+          </div>
+        </div>
+        <div class="sc">${s.points}<small>pts</small></div>
+      </div>`).join("");
+  }
+}
+
+function renderCashFlow() {
+  const txList = $("transactionList");
+  const totalSpentEl = $("totalSpentDisplay");
+  const totalSavedEl = $("totalSavedDisplay");
+  const donutContainer = $("donutChartContainer");
+  const legendContainer = $("donutLegend");
+
+  if (!txList || !totalSpentEl || !totalSavedEl || !donutContainer) return;
+
+  const spent = state.totalSpent || 0;
+  const saved = state.totalSaved || 0;
+  const total = spent + saved;
+
+  totalSpentEl.textContent = displayMoney(spent);
+  totalSavedEl.textContent = displayMoney(saved);
+
+  if (!state.transactions || state.transactions.length === 0) {
+    txList.innerHTML = `<div class="empty">No transactions yet. Start paying with your wallet to see them here.</div>`;
+    donutContainer.innerHTML = `<div class="empty">No data to display.</div>`;
+    legendContainer.innerHTML = "";
+    return;
+  }
+
+  // Transaction List
+  const reversedTx = [...state.transactions].reverse();
+  txList.innerHTML = reversedTx.map(tx => `
+    <div style="display:flex; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line);">
+      <div>
+        <div style="font-size:13px; font-weight:850; color:var(--ink); margin-bottom:2px;">${esc(tx.category || 'Payment')}</div>
+        <div style="font-size:11px; color:var(--muted);">${esc(tx.date)}</div>
+        ${tx.saved > 0 ? `<div style="font-size:11px; color:#2b6650; font-weight:750; margin-top:2px;">Saved: ${money(tx.saved)}</div>` : ''}
+      </div>
+      <div style="font-weight:900; color:var(--ink);">-${displayMoney(tx.amount)}</div>
+    </div>
+  `).join("");
+
+  // Donut Chart Logic (Spent vs Saved)
+  if (total === 0) {
+    donutContainer.innerHTML = `<div class="empty">No data to display.</div>`;
+    legendContainer.innerHTML = "";
+    return;
+  }
+
+  const spentPct = (spent / total) * 100;
+  const savedPct = (saved / total) * 100;
+
+  const colorSpent = "#3659bd"; // Blue
+  const colorSaved = "#2b6650"; // Green
+
+  donutContainer.innerHTML = `
+    <svg viewBox="0 0 100 100" style="width:100%; height:100%; max-width:220px; transform:rotate(-90deg);">
+      <!-- Background circle -->
+      <circle cx="50" cy="50" r="40" fill="transparent" stroke="#edf0f9" stroke-width="20"></circle>
+      <!-- Spent Segment -->
+      <circle class="donut-segment" cx="50" cy="50" r="40" fill="transparent" stroke="${colorSpent}" stroke-width="20" pathLength="100" stroke-dasharray="${spentPct} ${100 - spentPct}" stroke-dashoffset="0"></circle>
+      <!-- Saved Segment -->
+      ${savedPct > 0 ? `<circle class="donut-segment" cx="50" cy="50" r="40" fill="transparent" stroke="${colorSaved}" stroke-width="20" pathLength="100" stroke-dasharray="${savedPct} ${100 - savedPct}" stroke-dashoffset="${-spentPct}"></circle>` : ''}
+    </svg>
+    <div style="position:absolute; text-align:center;">
+      <div style="font-size:11px; color:var(--muted); font-weight:850; text-transform:uppercase; letter-spacing:1px;">Total Flow</div>
+      <div style="font-size:20px; font-weight:900; color:var(--forest);">${displayMoney(total)}</div>
+    </div>
+  `;
+
+  legendContainer.innerHTML = `
+    <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:750;">
+      <div style="width:12px; height:12px; border-radius:3px; background:${colorSpent};"></div>
+      <span>Total Spent (${spentPct.toFixed(0)}%)</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:750;">
+      <div style="width:12px; height:12px; border-radius:3px; background:${colorSaved};"></div>
+      <span>Total Saved (${savedPct.toFixed(0)}%)</span>
+    </div>
+  `;
+}
+
+/* ================================================================
+   Main Render & Navigation
+   ================================================================ */
+function render() {
+  const today = gameTodayStr();
+  if (state.stampDraw && state.stampDraw.date && state.stampDraw.date !== today) {
+    state.stampDraw = { date: "", claimed: false, reward: null };
+    save();
+  }
+
+  const setEl = (id, val) => { const el = $(id); if (el) el.textContent = val; };
+  setEl("pointsHome", state.points);
+  setEl("walletBalance", displayMoney(state.walletBalance)); 
+  renderVouchers();
+  setEl("stampsHome", `${Math.min(state.stamps, 5)} / 5`);
+  setEl("streakHome", `${state.streak} days`);
+
+  const eyeBtn = $("privacyToggleBtn");
+  if (eyeBtn) {
+    if (state.privacyMode) {
+      eyeBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+    } else {
+      eyeBtn.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    }
+  }
+
+  renderProfileMenu();
+  $("campusSelect").value = state.userCampus;
+
+  document.querySelectorAll(".nav-btn, .mobile-nav .nav-btn").forEach(btn => {
+    if (btn.dataset.view === "home") return; 
+    if (!state.isLoggedIn) {
+      btn.classList.add("locked");
+      btn.style.opacity = "0.5";
+      btn.style.cursor = "not-allowed";
+    } else {
+      btn.classList.remove("locked");
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    }
+  });
+
+  const featuredEl = $("featuredMissions");
+  if (featuredEl) {
+    featuredEl.innerHTML = missions.filter(m => !state.completed.includes(m.id)).slice(0, 2).map(missionCard).join("")
+      || `<div class="card"><h3>Quest champion!</h3><p>You've completed all demo missions. Try the safety quiz or explore the campus challenge.</p><button class="btn btn-dark btn-small" data-go="campus">View challenge</button></div>`;
+  }
+  const allMissionsEl = $("allMissions");
+  if (allMissionsEl) allMissionsEl.innerHTML = missions.map(missionCard).join("");
+
+  const homePassport = $("homePassport");
+  if (homePassport) homePassport.innerHTML = passportMarkup();
+  const fullPassport = $("fullPassport");
+  if (fullPassport) fullPassport.innerHTML = passportMarkup();
+
+  setEl("passportMilestone", state.stamps >= 5
+    ? "You've reached the demo milestone. Check the rewards screen."
+    : `Collect ${5 - state.stamps} more stamp${5 - state.stamps === 1 ? "" : "s"} to reach your demo reward.`);
+
+  const rewardProgEl = $("rewardProgress");
+  if (rewardProgEl) rewardProgEl.style.width = `${Math.min(state.stamps, 5) * 20}%`;
+  setEl("rewardProgressText", `${Math.min(state.stamps, 5)} of 5 stamps`);
+  setEl("rewardStatus", state.redeemed ? "Demo reward redeemed" : state.stamps >= 5 ? "Milestone unlocked!" : `${5 - state.stamps} stamps to go`);
+
+  setEl("habitBadge", state.completed.length >= 3 ? "Milestone reached" : "In progress");
+
+  renderLocations();
+  renderGames();
+  renderLeaderboard();
+  renderCashFlow();
+  save();
+}
+
+function showToast(message) {
+  const t = $("toast"); if (!t) return;
+  t.textContent = message;
+  t.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+function go(view) {
+  if (!state.isLoggedIn && view !== "home") {
+    showLoginModal();
+    return;
+  }
+  document.querySelectorAll(".view").forEach(v => v.classList.toggle("active", v.id === `view-${view}`));
+  document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === view));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  
+  const buddyFab = document.querySelector('.buddy-fab');
+  if (buddyFab) {
+    buddyFab.style.display = (view === 'buddy') ? 'none' : 'grid';
+  }
+}
+
+document.addEventListener("click", e => {
+  const nav = e.target.closest("[data-view]"); if (nav) { go(nav.dataset.view); return; }
+  const goBtn = e.target.closest("[data-go]"); if (goBtn) { go(goBtn.dataset.go); return; }
+  const mb = e.target.closest("[data-mission]"); if (mb) { startMission(mb.dataset.mission); return; }
+  const answer = e.target.closest("[data-answer]"); if (answer) { checkAnswer(answer.dataset.answer); return; }
+  
+  if (e.target.closest("#profileBtn")) {
+    $("profileMenu").classList.toggle("show");
+  } else if (!e.target.closest("#profileMenu")) {
+    $("profileMenu").classList.remove("show");
+  }
+
+  if (e.target.closest("#logoutBtn")) logout();
+  if (e.target.closest("#openLoginBtn")) showLoginModal();
+  
+  if (e.target.closest("#privacyToggleBtn")) {
+    if (state.isLoggedIn) {
+      state.privacyMode = !state.privacyMode;
+      save(); render();
+      showToast(`Privacy mode ${state.privacyMode ? 'ON' : 'OFF'}`);
+    } else {
+      showLoginModal();
+    }
+  }
+});
+
+$("campusSelect").addEventListener("change", (e) => {
+  if (!state.isLoggedIn) {
+    showLoginModal();
+    e.target.value = state.userCampus;
+    return;
+  }
+  state.userCampus = e.target.value;
+  save(); renderLeaderboard();
+  showToast(`Campus updated to ${state.userCampus}`);
+});
+
+function closeModal() { const m = $("modalBackdrop"); if (m) m.classList.remove("show"); }
+const modalCancel = $("modalCancel");
+if (modalCancel) modalCancel.addEventListener("click", closeModal);
+const modalBackdrop = $("modalBackdrop");
+if (modalBackdrop) modalBackdrop.addEventListener("click", e => { if (e.target === modalBackdrop) closeModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+/* ================================================================
+   LOGIN & AUTH FLOW
+   ================================================================ */
+$("loginCancelBtn").addEventListener("click", () => $("loginModalBackdrop").classList.remove("show"));
+$("forgotPasswordBtn").addEventListener("click", () => {
+  $("loginTitle").textContent = "Reset Password";
+  $("loginSubtitle").textContent = "Set a new password for your demo profile.";
+  $("loginAuthSection").style.display = "none";
+  $("loginResetSection").style.display = "block";
+  $("loginConfirmBtn").textContent = "Save Password";
+  $("loginError").style.display = "none";
+});
+
+$("loginConfirmBtn").addEventListener("click", () => {
+  const isReset = $("loginResetSection").style.display === "block";
+  if (isReset) {
+    const newPass = $("newPasswordInput").value.trim();
+    if (!newPass) { showToast("Password cannot be empty."); return; }
+    state.password = newPass;
+    save();
+    showToast("Password reset successfully! You are now logged in.");
+    state.isLoggedIn = true;
+    $("loginModalBackdrop").classList.remove("show");
+    render();
+  } else {
+    const entered = $("loginPasswordInput").value;
+    if (entered === state.password) {
+      state.isLoggedIn = true;
+      save();
+      $("loginModalBackdrop").classList.remove("show");
+      render();
+      showToast("Logged in successfully!");
+    } else {
+      $("loginError").style.display = "block";
+    }
+  }
+});
+
+/* ================================================================
+   TOP UP FLOW
+   ================================================================ */
+$("topUpBtn").addEventListener("click", () => {
+  if (!state.isLoggedIn) { showLoginModal(); return; }
+  $("topUpAmountInput").value = "25.00";
+  $("topUpModalBackdrop").classList.add("show");
+});
+
+$("topUpCancelBtn").addEventListener("click", () => $("topUpModalBackdrop").classList.remove("show"));
+$("topUpConfirmBtn").addEventListener("click", () => {
+  const amount = Number($("topUpAmountInput").value);
+  if (!Number.isFinite(amount) || amount < 1 || amount > 500) {
+    showToast("Enter a valid amount between RM1.00 and RM500.00.");
+    return;
+  }
+  state.walletBalance = Math.round((state.walletBalance + amount) * 100) / 100;
+  save(); render();
+  $("topUpModalBackdrop").classList.remove("show");
+  showToast(`${money(amount)} added to your demo wallet.`);
+});
+
+/* ================================================================
+   PAYMENT SYSTEM
+   ================================================================ */
+let currentPayData = { subtotal: 0, discount: 0, final: 0, perPerson: 0, voucher: null, friends: 1 };
+
+function calcVoucherSaving(v, amount) {
+  if (v.type === "discount") return amount * (v.value / 100);
+  if (v.type === "cashback") return Math.min(v.value, amount);
+  return 0;
+}
+
+$("payBtn").addEventListener("click", () => {
+  if (!state.isLoggedIn) { showLoginModal(); return; }
+  
+  $("payAmountInput").value = "";
+  $("aaToggle").checked = false;
+  $("aaInputWrap").classList.remove("show");
+  $("aaFriendsInput").value = 2;
+  $("payDiscountLabel").style.display = "none";
+
+  const updateVoucherList = () => {
+    const amt = Number($("payAmountInput").value) || 0;
+    const availableVouchers = state.vouchers.filter(v => !v.used);
+    
+    const sortedVouchers = [...availableVouchers].sort((a, b) => calcVoucherSaving(b, amt) - calcVoucherSaving(a, amt));
+
+    let html = `<label class="voucher-radio">
+        <input type="radio" name="payVoucher" value="" checked>
+        <div class="voucher-radio-details">
+          <strong>No voucher</strong>
+          <small>Pay the full amount.</small>
+        </div>
+      </label>`;
+    
+    html += sortedVouchers.map(v => {
+      const saving = calcVoucherSaving(v, amt);
+      const savingText = saving > 0 ? ` (Saves ${money(saving)})` : "";
+      return `
+      <label class="voucher-radio">
+        <input type="radio" name="payVoucher" value="${v.id}">
+        <div class="voucher-radio-details">
+          <strong>${esc(v.name)}${savingText}</strong>
+          <small>${esc(v.description)}</small>
+        </div>
+      </label>
+    `}).join("");
+
+    $("payVoucherList").innerHTML = html;
+  };
+
+  const calcSetup = () => {
+    const amt = Number($("payAmountInput").value) || 0;
+    const vId = document.querySelector('input[name="payVoucher"]:checked')?.value || "";
+    let discount = 0;
+    
+    if (vId) {
+      const v = state.vouchers.find(x => x.id === vId);
+      if (v) discount = calcVoucherSaving(v, amt);
+    }
+
+    if (discount > 0) {
+      $("payDiscountLabel").style.display = "inline";
+      $("payDiscountLabel").textContent = `-RM${discount.toFixed(2)}`;
+    } else {
+      $("payDiscountLabel").style.display = "none";
+    }
+  };
+
+  updateVoucherList();
+  calcSetup();
+
+  $("payAmountInput").oninput = () => { updateVoucherList(); calcSetup(); };
+  $("payVoucherList").onchange = calcSetup;
+
+  $("payModalBackdrop").classList.add("show");
+});
+
+$("aaToggle").addEventListener("change", (e) => {
+  if (e.target.checked) $("aaInputWrap").classList.add("show");
+  else $("aaInputWrap").classList.remove("show");
+});
+
+$("payModalCancel").addEventListener("click", () => {
+  $("payModalBackdrop").classList.remove("show");
+  pendingPaymentMission = null;
+});
+
+$("payModalProceed").addEventListener("click", () => {
+  const amt = Number($("payAmountInput").value);
+  if (!Number.isFinite(amt) || amt <= 0) { showToast("Please enter a valid amount."); return; }
+  if (amt > state.walletBalance) { showToast("Insufficient wallet balance. Top up first."); return; }
+
+  const vId = document.querySelector('input[name="payVoucher"]:checked')?.value || "";
+  let discount = 0;
+  let selectedVoucher = null;
+
+  if (vId) {
+    selectedVoucher = state.vouchers.find(x => x.id === vId);
+    if (selectedVoucher) discount = calcVoucherSaving(selectedVoucher, amt);
+  }
+
+  const finalTotal = Math.max(0, amt - discount);
+  const isAA = $("aaToggle").checked;
+  const friends = isAA ? Math.max(2, Number($("aaFriendsInput").value) || 2) : 1;
+  const perPerson = finalTotal / friends;
+
+  currentPayData = { subtotal: amt, discount, final: finalTotal, perPerson, voucher: selectedVoucher, friends };
+
+  $("receiptSubtotal").textContent = money(amt);
+  $("receiptDiscount").textContent = discount > 0 ? `-${money(discount)}` : "-RM0.00";
+  $("receiptTotal").textContent = money(finalTotal);
+  
+  const now = new Date();
+  $("receiptTime").textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+  if (isAA) {
+    $("receiptAASection").style.display = "block";
+    $("receiptPerPerson").textContent = money(perPerson);
+    $("receiptAADesc").textContent = `per person (${friends} people)`;
+  } else {
+    $("receiptAASection").style.display = "none";
+  }
+
+  $("payModalBackdrop").classList.remove("show");
+  $("receiptModalBackdrop").classList.add("show");
+  $("whatsappShareBtn").style.display = "none";
+  $("confirmPayBtn").style.display = "block";
+});
+
+$("receiptCancelBtn").addEventListener("click", () => {
+  $("receiptModalBackdrop").classList.remove("show");
+  pendingPaymentMission = null;
+});
+
+$("confirmPayBtn").addEventListener("click", () => {
+  const pointsEarned = Math.floor(currentPayData.final * 3);
+  
+  state.walletBalance = Math.round((state.walletBalance - currentPayData.final) * 100) / 100;
+  state.totalSpent = (state.totalSpent || 0) + currentPayData.final;
+  state.totalSaved = (state.totalSaved || 0) + currentPayData.discount;
+  state.points += pointsEarned;
+
+  if (!state.transactions) state.transactions = [];
+  state.transactions.push({
+    date: new Date().toLocaleString(),
+    amount: currentPayData.final,
+    saved: currentPayData.discount,
+    category: "Campus Payment"
+  });
+
+  if (currentPayData.voucher) {
+    const v = state.vouchers.find(x => x.id === currentPayData.voucher.id);
+    if (v) v.used = true;
+  }
+
+  save(); render();
+  showToast(`Payment successful! Earned ${pointsEarned} Quest Points.`);
+
+  if (pendingPaymentMission === "first") {
+    setTimeout(() => completeMissionById("first"), 500);
+    pendingPaymentMission = null;
+  }
+
+  $("receiptTitle").textContent = "Payment Successful! 🎉";
+  $("confirmPayBtn").style.display = "none";
+  
+  if (currentPayData.friends > 1) {
+    $("whatsappShareBtn").style.display = "flex";
+  } else {
+    setTimeout(() => $("receiptModalBackdrop").classList.remove("show"), 1500);
+  }
+});
+
+$("whatsappShareBtn").addEventListener("click", () => {
+  const text = `Hey! I just paid RM${currentPayData.final.toFixed(2)} for our meal. Your share is RM${currentPayData.perPerson.toFixed(2)}. Please pay me back! 💸`;
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(url, "_blank");
+  $("receiptModalBackdrop").classList.remove("show");
+});
+
+/* ================================================================
+   Rest of App logic
+   ================================================================ */
+function checkAnswer(answer) {
+  const f = $("quizFeedback"); if (!f) return;
+  if (answer === "correct") {
+    f.innerHTML = '<div class="tag">Correct ✓</div><p style="font-size:13px;margin-top:10px">Always verify the recipient and amount in your payment app before confirming. Never share your PIN or one-time password.</p>';
+    showToast("Correct — safety first!");
+  } else {
+    f.innerHTML = '<div class="tag orange">Not quite</div><p style="font-size:13px;margin-top:10px">Slow down and verify the recipient and amount. Never share your PIN or one-time password.</p>';
+  }
+}
+
+const STAMP_GOAL = 5;
+const timesOf = mission => mission.times || 1;
+
+const FOOD_OFFER = "Sample: explore nearby food outlets";
+const COLLEGE_NAMES = [
+  "TM", "MISC", "BSN", "Perodua", "Proton", "Tradewins", "Sime Darby", "MAS",
+  "TNB", "Muamalat", "Angkasa", "Bank Rakyat", "SME Bank", "Bank Islam"
+];
+const FACULTY_CAFES = ["Kuning Hijau", "Hantu", "Alumni", "DKG 6", "DKG 5"];
+
+const LOCATIONS = [
+  {
+    name: "Vmall", type: "Campus shopping area", icon: "🛍️", offer: "Click to browse example shops",
+    items: [
+      { name: "Mixue",                       type: "Ice cream and drinks",   icon: "🍦", note: "Example category; current tenant not verified." },
+      { name: "7-Eleven",                    type: "Convenience store",      icon: "🏪", note: "Example category; current tenant not verified." },
+      { name: "Nice to CU Mart",             type: "Mini mart",              icon: "🛒", note: "Example category; current tenant not verified." },
+      { name: "Printing and Photocopy",      type: "Student services",       icon: "🖨️", note: "Example category; current tenant not verified." },
+      { name: "Gadget and Accessories Shop", type: "Retail",                 icon: "📱", note: "Example category; current tenant not verified." },
+      { name: "Merchandise Shop",            type: "Souvenirs and apparel",  icon: "👕", note: "Example category; current tenant not verified." },
+      { name: "Richiamo Coffee",             type: "Coffee and drinks",      icon: "☕", note: "Example category; current tenant not verified." },
+      { name: "Pizza Hut",                   type: "Restaurant",             icon: "🍕", note: "Example category; current tenant not verified." },
+      { name: "Fruit Shop",                  type: "Fresh fruit",            icon: "🍎", note: "Example category; current tenant not verified." },
+      { name: "Pijab Collection",            type: "Fashion",                icon: "👗", note: "Example category; current tenant not verified." }
+    ]
+  },
+{
+  name: "Pusat Sukan", type: "Sports facilities", icon: "⚽", offer: "Click to browse example shops",
+  items: [
+    { name: "Food and drinks", type: "Food and drinks", icon: "🍜", note: "Example category; stalls need verification." }
+  ]
+},  
+...COLLEGE_NAMES.map(n => ({
+  name: `Inasis ${n}`, type: "Residential college", icon: "🏠", offer: "Click to browse example shops",
+  items: [
+    { name: `Cafe ${n}`, type: "Cafe · food and drinks", icon: "☕", note: "Example category; current tenant not verified." }
+  ]
+})),
+{
+  name: "Perpustakaan Sultanah Bahiyah", type: "Library area", icon: "📚", offer: "Click to browse example shops",
+  items: [
+    { name: "Manager Coffee",   type: "Coffee and drinks", icon: "☕", note: "Example category; current tenant not verified." },
+    { name: "Ashafie Legacy",   type: "Food and drinks",   icon: "🍽️", note: "Example category; current tenant not verified." },
+    { name: "Zus Coffee",       type: "Coffee and drinks", icon: "☕", note: "Example category; current tenant not verified." }
+  ]
+},
+  ...FACULTY_CAFES.map(n => ({ name: `Cafe ${n}`, type: "Faculty cafe", icon: "☕", offer: FOOD_OFFER }))
+];
+const DEFAULT_LOCATION_ITEMS = [
+  { name: "Food and drinks",   type: "Example category", icon: "🍜", note: "Exact tenants are not verified." },
+  { name: "Convenience store", type: "Example category", icon: "🛒", note: "Exact tenants are not verified." },
+  { name: "Student services",  type: "Example category", icon: "📚", note: "Exact tenants are not verified." }
+];
+
+function missionCard(m) {
+  const times = timesOf(m);
+  const count = state.progress[m.id] || 0;
+  const done = state.completed.includes(m.id);
+  const inProgress = !done && times > 1 && count > 0;
+  const tagClass = done ? "gray" : m.tagClass;
+  const tagText = done ? "Completed" : inProgress ? `${count} / ${times} done` : m.level;
+  const reward = `+${m.points} Quest Points${m.stamps ? ` · +${m.stamps} stamp` : ""}${times > 1 ? " each time" : ""}`;
+  const buttonText = done ? "✓ Done" : inProgress ? `Log moment ${count + 1} of ${times}` : m.cta;
+  const progressBar = times > 1
+    ? `<div class="progress mb-12"><span style="width:${Math.round((done ? times : count) / times * 100)}%"></span></div>`
+    : "";
+  return `<article class="card mission-card">
+      <div class="card-head">
+        <div class="mission-icon">${m.icon}</div>
+        <span class="tag ${tagClass}">${tagText}</span>
+      </div>
+      <h3>${m.title}</h3>
+      <p>${m.desc}</p>
+      ${progressBar}
+      <div class="card-footer">
+        <span class="reward-text">${reward}</span>
+        <button class="btn ${done ? "btn-outline" : "btn-dark"} btn-small" data-mission="${m.id}" ${done ? "disabled" : ""}>${buttonText}</button>
+      </div>
+    </article>`;
+}
+
+function renderLocations() {
+  const el = $("merchantList"); if (!el) return;
+  el.innerHTML = LOCATIONS.map(m => `<button type="button" class="merchant" data-location="${esc(m.name)}">
+      <span class="merchant-icon">${m.icon}</span>
+      <span class="merchant-info"><strong>${esc(m.name)}</strong><small>${esc(m.type)} · ${esc(m.offer)}</small></span>
+      <span class="tag blue">View details ↗</span>
+    </button>`).join("");
+}
+
+function renderGames() {
+  const setEl = (id, val) => { const el = $(id); if (el) el.textContent = val; };
+  setEl("gamePoints", state.points);
+  setEl("gameAvailable", state.gameRewardClaimed ? "Practice" : "Ready");
+
+  refreshDailyGames();
+  const earned = state.gamesToday.earned;
+  const pct = Math.min(100, Math.round(earned / GAME_DAILY_CAP * 100));
+  const textEl = $("gameDailyText");
+  const barEl = $("gameDailyBar");
+  const bannerEl = $("gameDailyBanner");
+  const noteEl = $("gameDailyNote");
+  if (textEl) textEl.textContent = earned;
+  if (barEl) {
+    barEl.style.width = pct + "%";
+    barEl.style.background = earned >= GAME_DAILY_CAP
+      ? "#e8784b"
+      : "linear-gradient(90deg,#3659bd,#f4d22f)";
+  }
+  if (bannerEl) bannerEl.classList.toggle("capped", earned >= GAME_DAILY_CAP);
+  if (noteEl) {
+    noteEl.textContent = earned >= GAME_DAILY_CAP
+      ? "Daily cap reached — you can still play for practice, but no more points will be added until midnight."
+      : `Fair-play cap: resets at midnight. ${GAME_DAILY_CAP - earned} pts still available from games today.`;
+  }
+}
+
+function openModal({ title, text, confirmLabel, onConfirm }) {
+  $("modalTitle").textContent = title;
+  $("modalText").textContent = text;
+  $("modalConfirm").textContent = confirmLabel;
+  $("modalConfirm").onclick = onConfirm;
+  $("modalBackdrop").classList.add("show");
+}
+
+function awardMission(mission) {
+  const times = timesOf(mission);
+  const count = (state.progress[mission.id] || 0) + 1;
+  state.progress[mission.id] = count;
+  if (count >= times) state.completed.push(mission.id);
+  state.points += mission.points;
+  state.stamps = Math.min(STAMP_GOAL, state.stamps + mission.stamps);
+  state.streak = Math.max(state.streak, 3);
+  render();
+  const prefix = times > 1 && count < times ? `Moment ${count} of ${times} logged!` : "Mission completed!";
+showToast(`${prefix} +${mission.points} points${mission.stamps ? " and a stamp" : ""}.`);
+}
+
+function completeMission(mission) { closeModal(); awardMission(mission); go("home"); }
+
+function completeMissionById(id) {
+  const mission = missions.find(m => m.id === id);
+  if (!mission || state.completed.includes(id)) return false;
+  awardMission(mission);
+  return true;
+}
+
+function startMission(id) {
+  if (!state.isLoggedIn) { showLoginModal(); return; }
+
+  const mission = missions.find(m => m.id === id);
+  if (!mission || state.completed.includes(id)) return;
+
+  if (id === "first") {
+    pendingPaymentMission = "first";
+    $("payBtn").click();
+    return;
+  }
+
+  if (mission.target) {
+    go("games");
+    $(mission.target).scrollIntoView({ behavior: "smooth", block: "start" });
+    showToast(mission.hint);
+    return;
+  }
+  const times = timesOf(mission);
+  const step = times > 1 ? `Moment ${(state.progress[id] || 0) + 1} of ${times}. ` : "";
+  openModal({
+    title: mission.title,
+    text: step + MISSION_MODAL_TEXT[id],
+    confirmLabel: times > 1 ? "Log demo moment" : "Complete demo mission",
+    onConfirm: () => completeMission(mission)
+  });
+}
+
+function openLocation(name) {
+  const location = LOCATIONS.find(m => m.name === name);
+  if (!location) return;
+  const items = location.items || DEFAULT_LOCATION_ITEMS;
+  $("locationModalTitle").textContent = location.name;
+  $("locationModalIntro").textContent = `Browse example shops and services at ${location.name}.`;
+  $("locationModalItems").innerHTML = items.map(item => `<div class="location-item">
+      <div class="location-item-icon">${item.icon}</div>
+      <div>
+        <strong>${esc(item.name)}</strong>
+        <small>${esc(item.type)}</small>
+        <small>${esc(item.note)}</small>
+      </div>
+    </div>`).join("");
+  $("locationModalBackdrop").classList.add("show");
+  $("locationModalClose").focus();
+}
+function closeLocationModal() { const m = $("locationModalBackdrop"); if (m) m.classList.remove("show"); }
+
+document.addEventListener("click", e => {
+  const locationBtn = e.target.closest("[data-location]");
+  if (locationBtn) openLocation(locationBtn.dataset.location);
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeLocationModal(); });
+const locClose = $("locationModalClose"); if (locClose) locClose.addEventListener("click", closeLocationModal);
+const locBackdrop = $("locationModalBackdrop");
+if (locBackdrop) locBackdrop.addEventListener("click", e => { if (e.target === locBackdrop) closeLocationModal(); });
+
+const SAFETY_QUESTIONS = [
+  { question: "1. Before paying, what should you check?",
+    options: ["A. Pay as quickly as possible", "B. Check the recipient and amount", "C. Share my PIN"],
+    answer: 1, explanation: "Correct! Check the recipient and amount before paying." },
+  { question: "2. Someone asks for your OTP. What should you do?",
+    options: ["A. Give it to them", "B. Send it through chat", "C. Keep it private"],
+    answer: 2, explanation: "Correct! Never share your OTP or PIN." },
+  { question: "3. You receive a suspicious payment link. What should you do?",
+    options: ["A. Click it immediately", "B. Verify it first", "C. Enter your password"],
+    answer: 1, explanation: "Correct! Be careful with unknown links and verify them first." }
+];
+
+let currentQuestion = 0;
+let gameScore = 0;
+let gameAnswered = [];
+
+function loadSafetyQuestion() {
+  const q = SAFETY_QUESTIONS[currentQuestion];
+  $("questionText").textContent = q.question;
+  $("questionNumber").textContent = `Question ${currentQuestion + 1} of ${SAFETY_QUESTIONS.length}`;
+  $("gameOptions").innerHTML = q.options.map((option, i) =>
+    `<button class="btn btn-outline" data-game-option="${i}">${option}</button>`).join("");
+  $("gameFeedback").textContent = "";
+  $("nextGameQuestion").hidden = true;
+  $("nextGameQuestion").textContent = "Next Question →";
+}
+
+function startSafetyGame() {
+  currentQuestion = 0;
+  gameScore = 0;
+  gameAnswered = [];
+  $("gameQuestion").hidden = false;
+  $("gameComplete").hidden = true;
+  $("gameCorrect").textContent = `0 / ${SAFETY_QUESTIONS.length}`;
+  loadSafetyQuestion();
+  renderGames();
+}
+
+$("gameOptions").addEventListener("click", e => {
+  const option = e.target.closest("[data-game-option]");
+  if (!option || gameAnswered.includes(currentQuestion)) return;
+  const q = SAFETY_QUESTIONS[currentQuestion];
+  if (Number(option.dataset.gameOption) !== q.answer) {
+    $("gameFeedback").innerHTML = `<span class="tag orange">Try Again!</span><p>Not quite. Choose another answer.</p>`;
+    return;
+  }
+  gameAnswered.push(currentQuestion);
+  gameScore += 10;
+  $("gameFeedback").innerHTML = `<span class="tag">Correct!</span><p>${q.explanation}</p>`;
+  option.classList.replace("btn-outline", "btn-light");
+  $("gameCorrect").textContent = `${gameAnswered.length} / ${SAFETY_QUESTIONS.length}`;
+  $("nextGameQuestion").hidden = false;
+  if (gameAnswered.length === SAFETY_QUESTIONS.length) $("nextGameQuestion").textContent = "See Results 🏆";
+});
+
+$("nextGameQuestion").addEventListener("click", () => {
+  if (gameAnswered.length < SAFETY_QUESTIONS.length) {
+    currentQuestion++;
+    loadSafetyQuestion();
+    return;
+  }
+  const wasClaimed = state.gameRewardClaimed;
+  const missionAlreadyDone = state.completed.includes("safe");
+  $("gameQuestion").hidden = true;
+  $("gameComplete").hidden = false;
+  $("gameFinalScore").textContent = `You scored ${gameScore} practice points.`;
+  $("gameFinalMessage").textContent = (wasClaimed || missionAlreadyDone)
+    ? "Practice round complete — no extra points this time."
+    : "Mission reward: +30 Quest Points on first completion.";
+  state.gameRewardClaimed = true;
+  render();
+  completeMissionById("safe");
+});
+
+$("restartGame").addEventListener("click", () => {
+  startSafetyGame();
+  showToast("Practice round started. No extra points this time.");
+});
+
+const coinArena = $("coinArena");
+const coinBasket = $("coinBasket");
+
+let coinRunning = false;
+let coinScore = 0;
+let coinSeconds = 30;
+let basketPosition = 50;
+let coinAnimation = null;
+let fallingCoins = [];
+let coinLastTime = 0;
+let lastCoinSpawn = 0;
+let coinStartTime = 0;
+
+function setBasket(percent) {
+  basketPosition = Math.max(7, Math.min(93, percent));
+  if (coinBasket) coinBasket.style.left = `${basketPosition}%`;
+}
+function moveBasket(direction) { if (coinRunning) setBasket(basketPosition + direction * 8); }
+function clearCoins() { fallingCoins.forEach(c => c.element.remove()); fallingCoins = []; }
+
+function createCoin() {
+  if (!coinArena) return;
+  const element = document.createElement("div");
+  const isStar = Math.random() >= 0.88;
+  element.className = "coin";
+  element.textContent = isStar ? "⭐" : "🪙";
+  const x = 5 + Math.random() * 90;
+  element.style.left = `${x}%`;
+  coinArena.appendChild(element);
+  fallingCoins.push({ element, x, y: -35, speed: 1.7 + Math.random() * 2, value: isStar ? 3 : 1 });
+}
+
+function animateCoins(timestamp) {
+  if (!coinRunning || !coinArena) return;
+
+  if (!coinLastTime) coinLastTime = timestamp;
+  const dtMs = Math.min(timestamp - coinLastTime, 100);
+  coinLastTime = timestamp;
+  const elapsed = dtMs / 16.67;
+
+  const elapsedSec = (timestamp - coinStartTime) / 1000;
+  coinSeconds = Math.max(0, 30 - elapsedSec);
+  const timeEl = $("coinTime"); if (timeEl) timeEl.textContent = Math.ceil(coinSeconds);
+
+  if (timestamp - lastCoinSpawn > 650) {
+    createCoin();
+    lastCoinSpawn = timestamp;
+  }
+
+  const height = coinArena.clientHeight;
+  const basketY = height - 45;
+
+  fallingCoins = fallingCoins.filter(coin => {
+    coin.y += coin.speed * elapsed;
+    coin.element.style.top = `${coin.y}px`;
+
+    const coinCenterY = coin.y + 15;
+    const caught = coinCenterY >= basketY - 15 && coinCenterY <= basketY + 25 && Math.abs(coin.x - basketPosition) < 16;
+    if (caught) {
+      coinScore += coin.value;
+      const sEl = $("coinScore"); if (sEl) sEl.textContent = coinScore;
+    }
+    if (caught || coin.y > height + 20) {
+      coin.element.remove();
+      return false;
+    }
+    return true;
+  });
+
+  if (coinSeconds <= 0) { endCoinGame(); return; }
+  coinAnimation = requestAnimationFrame(animateCoins);
+}
+
+function endCoinGame() {
+  if (!coinRunning) return;
+  coinRunning = false;
+  cancelAnimationFrame(coinAnimation);
+  clearCoins();
+
+  const startBtn = $("startCoinGame"); if (startBtn) startBtn.disabled = false;
+
+  const rawQP = Math.floor(coinScore / COIN_POINTS_PER_UNIT);
+  const sessionCapped = Math.min(rawQP, COIN_SESSION_CAP);
+  const awarded = awardGamePoints(sessionCapped);
+
+  const dailyLeft = gameDailyRemaining();
+  let msg = `Time's up! ${coinScore} game points`;
+  if (awarded > 0) msg += ` → +${awarded} Quest Points`;
+  else if (dailyLeft <= 0) msg += ` (daily game limit reached — practice only)`;
+  else msg += ` (no points this round)`;
+  const msgEl = $("coinMessage"); if (msgEl) msgEl.textContent = msg;
+
+  const missionDone = completeMissionById("play");
+  render();
+  if (awarded > 0 && !missionDone) showToast(`Coin Catcher: +${awarded} Quest Points!`);
+}
+
+const startCoinBtn = $("startCoinGame");
+if (startCoinBtn) {
+  startCoinBtn.addEventListener("click", () => {
+    if (!state.isLoggedIn) { showLoginModal(); return; }
+    cancelAnimationFrame(coinAnimation);
+    clearCoins();
+
+    coinRunning = true;
+    coinScore = 0;
+    coinSeconds = 30;
+    coinLastTime = 0;
+    coinStartTime = performance.now();
+    lastCoinSpawn = performance.now();
+    setBasket(50);
+
+    const sEl = $("coinScore"); if (sEl) sEl.textContent = "0";
+    const tEl = $("coinTime"); if (tEl) tEl.textContent = "30";
+    const mEl = $("coinMessage"); if (mEl) mEl.textContent = "Catch the coins and stars!";
+    startCoinBtn.disabled = true;
+
+    createCoin();
+    coinAnimation = requestAnimationFrame(animateCoins);
+  });
+}
+
+const bLeft = $("basketLeft"); if (bLeft) bLeft.addEventListener("click", () => moveBasket(-1));
+const bRight = $("basketRight"); if (bRight) bRight.addEventListener("click", () => moveBasket(1));
+if (coinArena) {
+  coinArena.addEventListener("pointerdown", e => {
+    if (!coinRunning) return;
+    const rect = coinArena.getBoundingClientRect();
+    setBasket((e.clientX - rect.left) / rect.width * 100);
+  });
+}
+
+const SCAM_QUESTIONS = [
+  { text: "A seller asks you to share your banking OTP to complete a payment.", answer: "scam",
+    explanation: "Never share your OTP. Keep authentication codes private." },
+  { text: "You check the recipient's name and payment amount before confirming.", answer: "safe",
+    explanation: "Correct! Checking the recipient and amount is a good habit." },
+  { text: "A stranger sends a link asking you to enter your banking password.", answer: "scam",
+    explanation: "Be careful with unknown links and suspicious requests for banking details." },
+  { text: "You open your trusted payment app yourself and check the details.", answer: "safe",
+    explanation: "Good! Review transaction details before confirming." },
+  { text: "Someone promises a prize but asks you to pay a fee through a suspicious link.", answer: "scam",
+    explanation: "Unexpected prizes and requests for upfront payments can be scam warning signs." }
+];
+
+let scamIndex = 0;
+let scamScore = 0;
+let scamAnswered = false;
+let scamFinished = false;
+let scamEarnedThisSession = 0;
+
+function loadScamQuestion() {
+  $("scamQuestion").textContent = SCAM_QUESTIONS[scamIndex].text;
+  $("scamProgress").textContent = `${scamIndex + 1} / ${SCAM_QUESTIONS.length}`;
+  $("scamScore").textContent = scamScore;
+  $("scamFeedback").textContent = "";
+  $("scamAnswers").querySelectorAll("button").forEach(b => { b.disabled = false; });
+  $("nextScamQuestion").hidden = true;
+  $("restartScamGame").hidden = true;
+  scamAnswered = false;
+}
+
+$("scamAnswers").addEventListener("click", e => {
+  if (!state.isLoggedIn) { showLoginModal(); return; }
+  
+  const button = e.target.closest("[data-scam-answer]");
+  if (!button || scamAnswered || scamFinished) return;
+  scamAnswered = true;
+  const q = SCAM_QUESTIONS[scamIndex];
+  const correct = button.dataset.scamAnswer === q.answer;
+  const feedback = $("scamFeedback");
+  $("scamAnswers").querySelectorAll("button").forEach(b => { b.disabled = true; });
+
+  if (correct) {
+    scamScore += 10;
+    const sessionRemaining = Math.max(0, SCAM_SESSION_CAP - scamEarnedThisSession);
+    const toAward = Math.min(SCAM_POINTS_PER_CORRECT, sessionRemaining);
+    const awarded = awardGamePoints(toAward);
+    scamEarnedThisSession += awarded;
+    if (awarded > 0) {
+      feedback.textContent = `Correct! +${awarded} Quest Points. ${q.explanation}`;
+    } else if (gameDailyRemaining() <= 0) {
+      feedback.textContent = `Correct! (Daily game limit reached — practice only.) ${q.explanation}`;
+    } else {
+      feedback.textContent = `Correct! (Session cap reached.) ${q.explanation}`;
+    }
+    feedback.style.color = "#245b49";
+    render();
+  } else {
+    feedback.style.color = "#9b4b2b";
+    feedback.textContent = "Not quite. " + q.explanation;
+  }
+  $("scamScore").textContent = scamScore;
+
+  if (scamIndex === SCAM_QUESTIONS.length - 1) {
+    scamFinished = true;
+    $("scamProgress").textContent = `${SCAM_QUESTIONS.length} / ${SCAM_QUESTIONS.length} · Done`;
+    feedback.textContent += ` Final score: ${scamScore} / ${SCAM_QUESTIONS.length * 10}.`;
+    $("restartScamGame").hidden = false;
+    const missionDone = completeMissionById("play");
+    render();
+    if (!missionDone && scamEarnedThisSession === 0) {
+      showToast("Session complete. No new points — daily cap may be reached.");
+    }
+  } else {
+    $("nextScamQuestion").hidden = false;
+  }
+});
+
+$("nextScamQuestion").addEventListener("click", () => {
+  if (scamIndex < SCAM_QUESTIONS.length - 1) { scamIndex++; loadScamQuestion(); }
+});
+
+$("restartScamGame").addEventListener("click", () => {
+  scamIndex = 0;
+  scamScore = 0;
+  scamFinished = false;
+  scamEarnedThisSession = 0;
+  loadScamQuestion();
+});
+
+const TAU = Math.PI * 2;
+const RUNNER_W = 800;
+const RUNNER_H = 260;
+const RUNNER_GROUND = 210;
+
+const runnerCanvas = $("runnerCanvas");
+const runnerCtx = runnerCanvas ? runnerCanvas.getContext("2d") : null;
+const runnerPlayer = { x: 90, y: RUNNER_GROUND - 42, width: 36, height: 42, velocityY: 0, jumping: false };
+
+let runnerActive = false;
+let runnerFinished = false;
+let runnerFrame = null;
+let runnerLastTime = 0;
+let runnerElapsed = 0;
+let runnerTimeLeft = 30;
+let runnerScore = 0;
+let runnerCoinsCollected = 0;
+let runnerSpeed = 300;
+let runnerSpawnTimer = 0;
+let runnerCoinTimer = 0;
+let runnerObjects = [];
+let runnerCoins = [];
+let runnerGroundOffset = 0;
+
+function fillPath(color, draw) { if (!runnerCtx) return; runnerCtx.fillStyle = color; runnerCtx.beginPath(); draw(runnerCtx); runnerCtx.fill(); }
+const fillCircle  = (color, x, y, r)      => fillPath(color, c => c.arc(x, y, r, 0, TAU));
+const fillEllipse = (color, x, y, rx, ry) => fillPath(color, c => c.ellipse(x, y, rx, ry, 0, 0, TAU));
+const fillRounded = (color, x, y, w, h, r) => fillPath(color, c => c.roundRect(x, y, w, h, r));
+const fillRect    = (color, x, y, w, h)   => { if (!runnerCtx) return; runnerCtx.fillStyle = color; runnerCtx.fillRect(x, y, w, h); };
+const drawText    = (text, x, y, color, font) => { if (!runnerCtx) return; runnerCtx.fillStyle = color; runnerCtx.font = font; runnerCtx.textAlign = "center"; runnerCtx.fillText(text, x, y); };
+
+function drawRunnerBackground() {
+  fillRect("#eaf5ff", 0, 0, RUNNER_W, RUNNER_H);
+  fillCircle("#ffe28a", 700, 40, 22);
+  [[130, 42], [400, 60], [590, 35]].forEach(([x, y]) => {
+    fillCircle("#fff", x, y, 13);
+    fillCircle("#fff", x + 15, y - 7, 17);
+    fillCircle("#fff", x + 32, y, 12);
+  });
+  fillPath("#c5e0b9", c => {
+    c.moveTo(0, 165); c.quadraticCurveTo(150, 90, 290, 155);
+    c.quadraticCurveTo(460, 90, 610, 155); c.quadraticCurveTo(710, 115, 800, 145);
+    c.lineTo(RUNNER_W, RUNNER_H); c.lineTo(0, RUNNER_H); c.closePath();
+  });
+  fillRect("#fffdf4", 340, 112, 90, 58);
+  fillRect("#fffdf4", 430, 130, 65, 40);
+  fillPath("#173f75", c => { c.moveTo(330, 114); c.lineTo(385, 85); c.lineTo(440, 114); c.closePath(); });
+  fillRect("#f5c64b", 337, 112, 96, 4);
+  for (let x = 350; x < 420; x += 22) {
+    fillRect("#8bc6e8", x, 123, 12, 13);
+    fillRect("#8bc6e8", x, 145, 12, 13);
+  }
+  fillRounded("#173f75", 530, 112, 78, 37, 5);
+  drawText("UUM", 569, 137, "#fff", "bold 18px Arial");
+  fillRect("#83bd6c", 0, RUNNER_GROUND, RUNNER_W, 50);
+  fillRect("#e6d5a8", 0, RUNNER_GROUND + 8, RUNNER_W, 36);
+  for (let x = -(runnerGroundOffset % 45); x < RUNNER_W; x += 45) {
+    fillRect("#55964b", x, RUNNER_GROUND + 3, 13, 3);
+    fillRect("#55964b", x + 17, RUNNER_GROUND + 5, 8, 2);
+  }
+  for (let x = -(runnerGroundOffset % 95); x < RUNNER_W; x += 95) {
+    fillRect("#fff", x, RUNNER_GROUND + 24, 40, 4);
+  }
+}
+
+function drawRunnerPlayer() {
+  if (!runnerCtx) return;
+  const c = runnerCtx;
+  const px = runnerPlayer.x, py = runnerPlayer.y;
+  const running = runnerActive && !runnerPlayer.jumping;
+  const bounce = running ? Math.abs(Math.sin(runnerElapsed * 17)) * 2 : 0;
+  const leg = running ? Math.sin(runnerElapsed * 17) * 5 : 0;
+  c.save(); c.translate(0, -bounce);
+  fillEllipse("#476b4940", px + 22, RUNNER_GROUND + 2, 22, 5);
+  c.strokeStyle = "#173f75"; c.lineWidth = 5; c.lineCap = "round";
+  c.beginPath();
+  c.moveTo(px + 15, py + 32); c.lineTo(px + 13 + leg, py + 40);
+  c.moveTo(px + 28, py + 32); c.lineTo(px + 30 - leg, py + 40);
+  c.stroke();
+  fillEllipse("#fff", px + 11 + leg, py + 41, 9, 4);
+  fillEllipse("#fff", px + 34 - leg, py + 41, 9, 4);
+  fillRounded("#173f75", px + 1, py + 17, 12, 16, 4);
+  fillCircle("#f5c64b", px + 7, py + 24, 2);
+  fillEllipse("#245b9a", px + 23, py + 28, 16, 14);
+  fillEllipse("#fffaf0", px + 25, py + 30, 9, 9);
+  fillCircle("#fffaf0", px + 23, py + 13, 17);
+  fillPath("#fffaf0", p => {
+    p.moveTo(px + 11, py + 5); p.lineTo(px + 12, py - 2); p.lineTo(px + 19, py + 3); p.closePath();
+    p.moveTo(px + 28, py + 3); p.lineTo(px + 34, py - 2); p.lineTo(px + 35, py + 7); p.closePath();
+  });
+  fillEllipse("#173f75", px + 17, py + 14, 4, 6);
+  fillEllipse("#173f75", px + 30, py + 14, 4, 6);
+  fillCircle("#fff", px + 18, py + 12, 1.7);
+  fillCircle("#fff", px + 31, py + 12, 1.7);
+  fillEllipse("#f6a6a6", px + 10, py + 20, 4, 2.5);
+  fillEllipse("#f6a6a6", px + 37, py + 20, 4, 2.5);
+  fillPath("#f5bd45", p => { p.moveTo(px + 21, py + 19); p.lineTo(px + 27, py + 19); p.lineTo(px + 24, py + 24); p.closePath(); });
+  fillPath("#173f75", p => p.ellipse(px + 23, py + 3, 18, 7, 0, Math.PI, TAU));
+  fillPath("#f5c64b", p => p.ellipse(px + 25, py + 4, 20, 4, 0, 0, Math.PI));
+  drawText("UUM", px + 23, py + 2, "#fff", "bold 7px Arial");
+  c.restore();
+}
+
+function drawRunnerObjects() {
+  runnerObjects.forEach(o => {
+    if (o.type === "scam") {
+      fillRounded("#e8784b", o.x, RUNNER_GROUND - 34, 32, 34, 5);
+      drawText("!", o.x + 16, RUNNER_GROUND - 10, "#fff", "bold 23px Arial");
+    } else {
+      fillRounded("#173f75", o.x, RUNNER_GROUND - 28, 38, 28, 4);
+      fillRect("#f5c64b", o.x + 5, RUNNER_GROUND - 21, 28, 6);
+      fillRect("#f5c64b", o.x + 5, RUNNER_GROUND - 9, 28, 6);
+    }
+  });
+  runnerCoins.forEach(coin => {
+    fillCircle("#d99521", coin.x, coin.y + 2, 13);
+    fillCircle("#f5c64b", coin.x, coin.y, 11);
+    if (runnerCtx) { runnerCtx.strokeStyle = "#fff0a8"; runnerCtx.lineWidth = 2; runnerCtx.stroke(); }
+    drawText("UUM", coin.x, coin.y + 3, "#8a5b13", "bold 7px Arial");
+  });
+}
+
+function drawRunnerOverlay() {
+  if (runnerActive) return;
+  fillRect("#173f35d9", 0, 0, RUNNER_W, RUNNER_H);
+  drawText(runnerFinished ? "GAME OVER!" : "CASHLESS RUNNER", RUNNER_W / 2, 100, "#d7f36b", "bold 27px Arial");
+  drawText(runnerFinished ? "Press Start Running to try again!" : "Jump over traps and collect UUM coins!",
+    RUNNER_W / 2, 136, "#fff", "16px Arial");
+  drawText("SPACE / ↑ / TAP TO JUMP", RUNNER_W / 2, 168, "#fff", "13px Arial");
+}
+
+function drawRunnerScene() {
+  if (!runnerCtx) return;
+  runnerCtx.clearRect(0, 0, RUNNER_W, RUNNER_H);
+  drawRunnerBackground();
+  drawRunnerPlayer();
+  drawRunnerObjects();
+  drawRunnerOverlay();
+}
+
+function runnerJump() {
+  if (!runnerActive || runnerPlayer.jumping) return;
+  runnerPlayer.velocityY = -570;
+  runnerPlayer.jumping = true;
+}
+
+function updateRunner(timestamp) {
+  if (!runnerActive) return;
+  if (!runnerLastTime) runnerLastTime = timestamp;
+  const dt = Math.min((timestamp - runnerLastTime) / 1000, 0.035);
+  runnerLastTime = timestamp;
+  runnerElapsed += dt;
+  runnerTimeLeft = Math.max(0, 30 - runnerElapsed);
+
+  runnerSpeed = Math.min(300 + runnerElapsed * 12, 600);
+  runnerGroundOffset += runnerSpeed * dt;
+
+  runnerPlayer.velocityY += 1450 * dt;
+  runnerPlayer.y += runnerPlayer.velocityY * dt;
+  if (runnerPlayer.y >= RUNNER_GROUND - runnerPlayer.height) {
+    runnerPlayer.y = RUNNER_GROUND - runnerPlayer.height;
+    runnerPlayer.velocityY = 0;
+    runnerPlayer.jumping = false;
+  }
+
+  runnerSpawnTimer += dt;
+  if (runnerSpawnTimer >= Math.max(0.85, 1.45 - runnerElapsed * 0.008)) {
+    runnerSpawnTimer = 0;
+    runnerObjects.push({ x: RUNNER_W + 20, width: 38, type: Math.random() < 0.5 ? "scam" : "barrier" });
+  }
+  runnerCoinTimer += dt;
+  if (runnerCoinTimer >= 1.05) {
+    runnerCoinTimer = 0;
+    runnerCoins.push({ x: RUNNER_W + 15, y: RUNNER_GROUND - 48 - Math.random() * 55 });
+  }
+
+  for (let i = runnerObjects.length - 1; i >= 0; i--) {
+    const o = runnerObjects[i];
+    o.x -= runnerSpeed * dt;
+    const oTop = RUNNER_GROUND - (o.type === "scam" ? 34 : 28);
+    const playerLeft = runnerPlayer.x + 8;
+    const playerRight = runnerPlayer.x + runnerPlayer.width - 6;
+    const playerTop = runnerPlayer.y + 5;
+    const playerBottom = runnerPlayer.y + runnerPlayer.height - 4;
+    const hit =
+      playerRight > o.x &&
+      playerLeft < o.x + o.width &&
+      playerBottom > oTop &&
+      playerTop < RUNNER_GROUND;
+    if (hit) { finishRunner("Oops! You hit an obstacle."); return; }
+    if (o.x + o.width < 0) runnerObjects.splice(i, 1);
+  }
+
+  for (let i = runnerCoins.length - 1; i >= 0; i--) {
+    const coin = runnerCoins[i];
+    coin.x -= runnerSpeed * dt;
+    const dx = coin.x - (runnerPlayer.x + 22);
+    const dy = coin.y - (runnerPlayer.y + 21);
+    if (Math.hypot(dx, dy) < 29) {
+      runnerCoinsCollected++;
+      runnerCoins.splice(i, 1);
+    } else if (coin.x < -20) {
+      runnerCoins.splice(i, 1);
+    }
+  }
+
+  runnerScore = Math.floor(runnerElapsed * 10) + runnerCoinsCollected * 10;
+  const rsEl = $("runnerScore"); if (rsEl) rsEl.textContent = runnerScore;
+  const rcEl = $("runnerCoins"); if (rcEl) rcEl.textContent = runnerCoinsCollected;
+  const rtEl = $("runnerTime"); if (rtEl) rtEl.textContent = Math.ceil(runnerTimeLeft);
+
+  if (runnerTimeLeft <= 0) { finishRunner("Time's up! Great running!"); return; }
+
+  drawRunnerScene();
+  runnerFrame = requestAnimationFrame(updateRunner);
+}
+
+function finishRunner(message) {
+  if (!runnerActive) return;
+  runnerActive = false;
+  runnerFinished = true;
+  cancelAnimationFrame(runnerFrame);
+
+  const sbEl = $("startRunner"); if (sbEl) sbEl.disabled = false;
+  const msgEl = $("runnerMessage");
+  if (msgEl) msgEl.textContent = `${message} Score: ${runnerScore}. UUM coins: ${runnerCoinsCollected}.`;
+  drawRunnerScene();
+
+  const rawQP = Math.floor(runnerScore / RUNNER_POINTS_PER_UNIT);
+  const sessionCapped = Math.min(rawQP, RUNNER_SESSION_CAP);
+  const awarded = awardGamePoints(sessionCapped);
+
+  const dailyLeft = gameDailyRemaining();
+  if (msgEl) {
+    let extra = "";
+    if (awarded > 0) extra = ` → +${awarded} Quest Points`;
+    else if (dailyLeft <= 0) extra = " (daily game limit reached — practice only)";
+    else if (sessionCapped === 0) extra = " (no points this round)";
+    msgEl.textContent += extra;
+  }
+
+  const missionDone = completeMissionById("play");
+  render();
+  if (awarded > 0 && !missionDone) showToast(`Cashless Runner: +${awarded} Quest Points!`);
+}
+
+function startRunnerGame() {
+  if (!state.isLoggedIn) { showLoginModal(); return; }
+  cancelAnimationFrame(runnerFrame);
+  runnerActive = true;
+  runnerFinished = false;
+  runnerLastTime = 0;
+  runnerElapsed = 0;
+  runnerTimeLeft = 30;
+  runnerScore = 0;
+  runnerCoinsCollected = 0;
+  runnerSpeed = 300;
+  runnerGroundOffset = 0;
+  runnerSpawnTimer = 0;
+  runnerCoinTimer = 0;
+  runnerObjects = [];
+  runnerCoins = [];
+  runnerPlayer.y = RUNNER_GROUND - runnerPlayer.height;
+  runnerPlayer.velocityY = 0;
+  runnerPlayer.jumping = false;
+
+  const rsEl = $("runnerScore"); if (rsEl) rsEl.textContent = "0";
+  const rcEl = $("runnerCoins"); if (rcEl) rcEl.textContent = "0";
+  const rtEl = $("runnerTime"); if (rtEl) rtEl.textContent = "30";
+  const msgEl = $("runnerMessage");
+  if (msgEl) msgEl.textContent = "Run automatically, jump over traps and collect UUM coins!";
+  const sbEl = $("startRunner"); if (sbEl) sbEl.disabled = true;
+
+  drawRunnerScene();
+  runnerFrame = requestAnimationFrame(updateRunner);
+}
+
+const startRunnerBtn = $("startRunner"); if (startRunnerBtn) startRunnerBtn.addEventListener("click", startRunnerGame);
+const jumpRunnerBtn = $("jumpRunner"); if (jumpRunnerBtn) jumpRunnerBtn.addEventListener("click", runnerJump);
+if (runnerCanvas) {
+  runnerCanvas.addEventListener("pointerdown", e => {
+    if (!runnerActive) return;
+    e.preventDefault();
+    runnerJump();
+  });
+}
+
+document.addEventListener("keydown", e => {
+  if (coinRunning && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+    e.preventDefault();
+    moveBasket(e.key === "ArrowLeft" ? -1 : 1);
+  }
+  if (runnerActive && (e.code === "Space" || e.key === "ArrowUp")) {
+    e.preventDefault();
+    runnerJump();
+  }
+});
+
+function todayStampDate() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0");
+}
+
+function openStampDraw() {
+  const backdrop = $("stampDrawBackdrop");
+  const boxesEl  = $("stampDrawBoxes");
+  const resultEl = $("stampDrawResult");
+  const introEl  = $("stampDrawIntro");
+  const cancelBtn = $("stampDrawCancel");
+  if (!backdrop || !boxesEl) return;
+
+  resultEl.hidden = true;
+  introEl.hidden = false;
+  introEl.textContent = "Each box hides a different prize. Tap one!";
+  cancelBtn.textContent = "Not now";
+  cancelBtn.disabled = false;
+
+  boxesEl.innerHTML = Array.from({ length: 5 }, (_, i) =>
+    `<button type="button" class="stamp-draw-box" data-box="${i}">${i+1}</button>`
+  ).join("");
+
+  backdrop.classList.add("show");
+  backdrop.dataset.phase = "shuffle";
+
+  const boxes = [...boxesEl.querySelectorAll(".stamp-draw-box")];
+  boxes.forEach(b => b.classList.add("shuffling"));
+  boxes.forEach(b => { b.disabled = true; });
+
+  setTimeout(() => {
+    boxes.forEach(b => {
+      b.classList.remove("shuffling");
+      b.disabled = false;
+    });
+    backdrop.dataset.phase = "pick";
+    introEl.textContent = "Now pick one box to reveal your reward!";
+  }, 1400);
+}
+
+function pickStampBox(index) {
+  const backdrop = $("stampDrawBackdrop");
+  if (!backdrop || backdrop.dataset.phase !== "pick") return;
+
+  const boxesEl  = $("stampDrawBoxes");
+  const resultEl = $("stampDrawResult");
+  const introEl  = $("stampDrawIntro");
+  const cancelBtn = $("stampDrawCancel");
+  if (!boxesEl) return;
+
+  backdrop.dataset.phase = "revealed";
+
+  const reward = STAMP_REWARDS[Math.floor(Math.random() * STAMP_REWARDS.length)];
+  grantStampReward(reward);
+
+  state.stampDraw = {
+    date: todayStampDate(),
+    claimed: true,
+    reward: { id: reward.id, name: reward.name, icon: reward.icon, kind: reward.kind, value: reward.value }
+  };
+
+  save();
+
+  const boxes = [...boxesEl.querySelectorAll(".stamp-draw-box")];
+  boxes.forEach((b, i) => {
+    b.disabled = true;
+    if (i === index) {
+      b.classList.add("chosen");
+      b.textContent = reward.icon;
+    } else {
+      b.classList.add("disabled");
+    }
+  });
+
+  introEl.hidden = true;
+  resultEl.hidden = false;
+  $("stampDrawIcon").textContent = reward.icon;
+  $("stampDrawName").textContent = reward.name;
+  $("stampDrawDesc").textContent = reward.desc + " " + describeGrant(reward);
+
+  cancelBtn.textContent = "See you tomorrow 👋";
+  cancelBtn.disabled = false;
+
+  render();
+}
+
+function describeGrant(reward) {
+  if (reward.kind === "points")   return `(+${reward.value} Quest Points)`;
+  if (reward.kind === "cashback") return `(+RM${reward.value} to demo wallet)`;
+  if (reward.kind === "voucher")  return `(voucher added to Rewards)`;
+  return "";
+}
+
+function grantStampReward(reward) {
+  if (reward.kind === "points") {
+    state.points += reward.value;
+  } else if (reward.kind === "cashback") {
+    state.walletBalance = Math.round((state.walletBalance + reward.value) * 100) / 100;
+  } else if (reward.kind === "voucher") {
+    state.vouchers.push({
+      id: `stamp-${reward.id}-${Date.now()}`,
+      name: reward.name,
+      type: "discount",
+      value: reward.value,
+      description: reward.desc,
+      icon: reward.icon,
+      category: reward.category,
+      used: false
+    });
+  }
+}
+
+document.addEventListener("click", e => {
+  const openBtn = e.target.closest("[data-stamp-draw='open']");
+  if (openBtn) { openStampDraw(); return; }
+
+  const box = e.target.closest("[data-box]");
+  if (box) { pickStampBox(Number(box.dataset.box)); return; }
+});
+
+const stampCancel = $("stampDrawCancel");
+if (stampCancel) stampCancel.addEventListener("click", () => {
+  $("stampDrawBackdrop").classList.remove("show");
+});
+const stampBackdrop = $("stampDrawBackdrop");
+if (stampBackdrop) stampBackdrop.addEventListener("click", e => {
+  if (e.target === stampBackdrop) stampBackdrop.classList.remove("show");
+});
+
+/* ================================================================
+   Reset Demo Button
+   ================================================================ */
+$("resetDemoBtn").addEventListener("click", () => {
+  if (!confirm("Reset all demo progress? This clears points, stamps, missions, wallet, vouchers, auth and DuitBuddy.")) return;
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(BUDDY_KEY);
+  } catch (e) {}
+  location.reload();
+});
+
+/* ================================================================
+   DuitBuddy System (Updated)
+   ================================================================ */
+const BUDDY_KEY_LOCAL = BUDDY_KEY;
+const dstr = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+const todayStr = () => dstr(new Date());
+const yesterdayStr = () => dstr(new Date(Date.now() - 864e5));
+
+let buddy = { xp: 0, energy: 60, streak: 0, lastFed: null, day: null, done: [], rewardClaimed: false };
+try {
+  const b = JSON.parse(localStorage.getItem(BUDDY_KEY_LOCAL));
+  if (b && typeof b.xp === "number") {
+    buddy = { ...buddy, ...b };
+    if (!buddy.lastFed && b.last) buddy.lastFed = b.last; 
+    if (typeof buddy.rewardClaimed !== "boolean") buddy.rewardClaimed = false;
+  }
+} catch(e) {}
+
+const buddyQuests = [
+  { id:"bq1", icon:"🐟", title:"Free Daily Meal", desc:"Pay digitally for a drink or breakfast.", pts:20, xp:15, energy:20 },
+  { id:"bq2", icon:"🍗", title:"Lunch Treat",     desc:"Spend RM 5 in total to unlock.", pts:30, xp:25, energy:30 },
+  { id:"bq3", icon:"🥛", title:"Dinner Feast",    desc:"Spend RM 10 in total to unlock.", pts:40, xp:20, energy:20 }
+];
+const stages = [
+  { min:0,   face:"🐱", name:"Kitten Duit" },
+  { min:60,  face:"😺", name:"Buddy Cat" },
+  { min:150, face:"😸", name:"Super Buddy" }
+];
+const stageOf = xp => { let i = 0; stages.forEach((s, n) => { if (xp >= s.min) i = n; }); return i; };
+
+function saveBuddy() { try { localStorage.setItem(BUDDY_KEY_LOCAL, JSON.stringify(buddy)); } catch(e) {} }
+
+// Idle animation logic
+let buddyIdleInterval = null;
+if (buddyIdleInterval) clearInterval(buddyIdleInterval);
+buddyIdleInterval = setInterval(() => {
+  const activeView = document.querySelector('.view.active');
+  if (activeView && activeView.id === 'view-buddy') {
+    const pet = $("petFace");
+    if (pet && !pet.classList.contains('sleeping') && !pet.classList.contains('playing') && !pet.classList.contains('happy')) {
+      const action = Math.random() > 0.5 ? 'sleeping' : 'playing';
+      pet.classList.add(action);
+      setTimeout(() => pet.classList.remove(action), 4000);
+    }
+  }
+}, 8000);
+
+function giveBuddyReward() {
+  const rewards = [
+    { type: "points", value: 30, icon: "✨", name: "30 Quest Points", desc: "A little bonus from DuitBuddy!" },
+    { type: "cashback", value: 1, icon: "💸", name: "RM1 Cashback", desc: "DuitBuddy shared some pocket money." },
+    { type: "voucher", value: 10, icon: "🏷️", name: "10% Discount Voucher", desc: "Use it on your next meal." }
+  ];
+  const r = rewards[Math.floor(Math.random() * rewards.length)];
+  
+  if (r.type === "points") state.points += r.value;
+  if (r.type === "cashback") state.walletBalance = Math.round((state.walletBalance + r.value) * 100) / 100;
+  if (r.type === "voucher") state.vouchers.push({ id: `buddy-${Date.now()}`, name: r.name, type: "discount", value: r.value, description: r.desc, icon: r.icon, category: "fnb", used: false });
+  
+  save(); render();
+  
+  setTimeout(() => {
+    openModal({
+      title: "DuitBuddy Bonus Reward! 🎁",
+      text: `You fed DuitBuddy all 3 meals today! Here is a reward: ${r.icon} ${r.name}. ${r.desc}`,
+      confirmLabel: "Awesome",
+      onConfirm: closeModal
+    });
+  }, 800);
+}
+
+function feedBuddy(id) {
+  if (!state.isLoggedIn) { showLoginModal(); return; }
+  
+  const q = buddyQuests.find(x => x.id === id);
+  if (!q || buddy.done.includes(id)) return;
+  
+  if (id === "bq2" && (state.totalSpent || 0) < 5) { showToast("Spend RM 5 in total to unlock this meal!"); return; }
+  if (id === "bq3" && (state.totalSpent || 0) < 10) { showToast("Spend RM 10 in total to unlock this meal!"); return; }
+
+  const before = stageOf(buddy.xp);
+  buddy.done.push(id);
+  buddy.xp += q.xp;
+  buddy.energy = Math.min(100, buddy.energy + q.energy);
+  
+  if (buddy.lastFed !== todayStr()) {
+    if (buddy.lastFed === yesterdayStr()) buddy.streak += 1;
+    else buddy.streak = 1;
+    buddy.lastFed = todayStr();
+  }
+  
+  state.points += q.pts;
+  saveBuddy(); render(); renderBuddy();
+  
+  const pet = $("petFace");
+  pet.classList.add("happy", "excited");
+  setTimeout(() => pet.classList.remove("happy", "excited"), 2000);
+  
+  const heartContainer = $("heartContainer");
+  if (heartContainer) {
+    for(let i=0; i<5; i++) {
+      setTimeout(() => {
+        const h = document.createElement("div");
+        h.className = "heart-particle";
+        h.textContent = "❤️";
+        h.style.left = (30 + Math.random() * 40) + "%";
+        h.style.bottom = (20 + Math.random() * 40) + "px";
+        heartContainer.appendChild(h);
+        setTimeout(() => h.remove(), 1500);
+      }, i * 150);
+    }
+  }
+  
+  showToast(stageOf(buddy.xp) > before
+    ? `DuitBuddy evolved into ${stages[stageOf(buddy.xp)].name}! 🎉 +${q.pts} points`
+    : `Yum! DuitBuddy loved it. +${q.pts} Quest Points 🐾`);
+    
+  if (buddy.done.length === 3 && !buddy.rewardClaimed) {
+    buddy.rewardClaimed = true;
+    saveBuddy();
+    giveBuddyReward();
+  }
+}
+
+function renderBuddy() {
+  const today = todayStr();
+  if (buddy.day !== today) {
+    buddy.day = today;
+    buddy.done = [];
+    buddy.rewardClaimed = false;
+    saveBuddy();
+  }
+  
+  const i = stageOf(buddy.xp), s = stages[i], nx = stages[i + 1];
+  const petFace = $("petFace"); if (petFace) petFace.innerHTML = catSVG(i);
+  const petName = $("petName"); if (petName) petName.textContent = s.name;
+  const fab = document.querySelector(".buddy-fab"); if (fab) fab.innerHTML = catSVG(i) + "<small>Feed me!</small>";
+  const petStreak = $("petStreak"); if (petStreak) petStreak.textContent = `🔥 ${buddy.streak} day streak`;
+  const petEnergy = $("petEnergy"); if (petEnergy) petEnergy.style.width = buddy.energy + "%";
+  const petEnergyTxt = $("petEnergyTxt"); if (petEnergyTxt) petEnergyTxt.textContent = buddy.energy + "%";
+  if (nx) {
+    if ($("petXp")) $("petXp").style.width = Math.min(100, (buddy.xp - s.min) / (nx.min - s.min) * 100) + "%";
+    if ($("petNextTxt")) $("petNextTxt").textContent = "Next: " + nx.name;
+    if ($("petXpTxt")) $("petXpTxt").textContent = `${buddy.xp} / ${nx.min} XP`;
+  } else {
+    if ($("petXp")) $("petXp").style.width = "100%";
+    if ($("petNextTxt")) $("petNextTxt").textContent = "Max evolution!";
+    if ($("petXpTxt")) $("petXpTxt").textContent = buddy.xp + " XP";
+  }
+  const away = buddy.lastFed && buddy.lastFed < yesterdayStr();
+  const all = buddy.done.length === buddyQuests.length;
+  const petSpeech = $("petSpeech");
+  if (petSpeech) petSpeech.textContent = all ? "I'm full and happy! See you tomorrow 😻"
+    : away ? "Welcome back! No worries at all. Here's a fresh challenge to start again 🐾"
+    : "I'm hungry for a cashless quest! 🐟";
+    
+  const bqEl = $("buddyQuests");
+  if (bqEl) {
+    bqEl.innerHTML = buddyQuests.map((q, idx) => {
+      const d = buddy.done.includes(q.id);
+      let isLocked = false;
+      let lockText = "";
+      
+      if (idx === 1 && (state.totalSpent || 0) < 5) { isLocked = true; lockText = "Spend RM 5"; }
+      if (idx === 2 && (state.totalSpent || 0) < 10) { isLocked = true; lockText = "Spend RM 10"; }
+      
+      const btnDisabled = d || isLocked;
+      const btnText = d ? "Fed ✓" : (isLocked ? `🔒 ${lockText}` : "Feed");
+      const btnClass = d ? "btn-outline" : (isLocked ? "btn-light" : "btn-dark");
+      
+      return `<div class="feed-row" style="${isLocked ? 'opacity:0.6' : ''}">
+          <div class="feed-ico">${q.icon}</div>
+          <div class="feed-info"><strong>${q.title}</strong><small>${q.desc} · +${q.pts} pts</small></div>
+          <button class="btn ${btnClass} btn-small" onclick="feedBuddy('${q.id}')" ${btnDisabled ? "disabled" : ""}>${btnText}</button>
+        </div>`;
+    }).join("");
+  }
+}
+
+function catSVG(st) {
+  return `<svg class="cat" viewBox="0 0 200 205" aria-hidden="true">
+  <ellipse cx="100" cy="195" rx="54" ry="7" fill="rgba(36,63,155,.10)"/>
+  <path class="tail" d="M138 165 Q188 158 176 108 Q172 94 160 100" stroke="#f6a65b" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <g class="body">
+    <ellipse cx="100" cy="155" rx="46" ry="36" fill="#f6a65b"/>
+    <ellipse cx="100" cy="162" rx="28" ry="22" fill="#fff3e0"/>
+    <ellipse cx="78" cy="186" rx="15" ry="9" fill="#ffe8c9"/>
+    <ellipse cx="122" cy="186" rx="15" ry="9" fill="#ffe8c9"/>
+  </g>
+  <g class="head">
+    <g class="ear-l"><path d="M46 74 L56 22 L94 54 Z" fill="#f6a65b"/><path d="M57 64 L61 36 L80 52 Z" fill="#ffb3c1"/></g>
+    <path d="M154 74 L144 22 L106 54 Z" fill="#f6a65b"/><path d="M143 64 L139 36 L120 52 Z" fill="#ffb3c1"/>
+    <ellipse cx="100" cy="94" rx="60" ry="50" fill="#f6a65b"/>
+    <path d="M100 46 L100 60 M87 48 L90 60 M113 48 L110 60" stroke="#e48a3a" stroke-width="4" stroke-linecap="round" fill="none"/>
+    <ellipse cx="100" cy="110" rx="25" ry="17" fill="#fff3e0"/>
+    <ellipse cx="62" cy="108" rx="10" ry="6.5" fill="#ff9fb2" opacity=".65"/>
+    <ellipse cx="138" cy="108" rx="10" ry="6.5" fill="#ff9fb2" opacity=".65"/>
+    <g class="eyes blink">
+      <ellipse cx="76" cy="92" rx="10" ry="12" fill="#1b2547"/><circle cx="79.5" cy="87" r="4" fill="#fff"/><circle cx="73" cy="97" r="2" fill="#fff"/>
+      <ellipse cx="124" cy="92" rx="10" ry="12" fill="#1b2547"/><circle cx="127.5" cy="87" r="4" fill="#fff"/><circle cx="121" cy="97" r="2" fill="#fff"/>
+    </g>
+    <g class="happy-eyes" stroke="#1b2547" stroke-width="4.5" fill="none" stroke-linecap="round">
+      <path d="M65 94 Q76 80 87 94"/><path d="M113 94 Q124 80 135 94"/>
+    </g>
+    <path d="M94 101 Q100 97 106 101 Q100 108 94 101Z" fill="#ff7f9a"/>
+    <path d="M100 106 Q100 114 92 114 M100 106 Q100 114 108 114" stroke="#7a3b2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M72 108 L42 102 M72 114 L42 117 M128 108 L158 102 M128 114 L158 117" stroke="#c58a5a" stroke-width="2" stroke-linecap="round"/>
+    ${st >= 1 ? '<path d="M62 46 L44 36 L44 58Z M62 46 L80 36 L80 58Z" fill="#F4D22F" stroke="#d9b400" stroke-width="1.5" stroke-linejoin="round"/><circle cx="62" cy="46" r="5.5" fill="#e0b800"/>' : ''}
+    ${st >= 2 ? '<path d="M82 46 L86 24 L94 38 L100 18 L106 38 L114 24 L118 46Z" fill="#F4D22F" stroke="#d9a800" stroke-width="2" stroke-linejoin="round"/><circle cx="100" cy="36" r="3.5" fill="#2B3F9E"/>' : ''}
+  </g>
+  <path d="M64 138 Q100 158 136 138" stroke="#2B3F9E" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <circle cx="100" cy="153" r="7.5" fill="#F4D22F" stroke="#d9b400" stroke-width="1.5"/>
+  <path d="M100 150 L100 157" stroke="#b89500" stroke-width="1.5"/>
+  ${st >= 2 ? '<text class="spark" x="28" y="52" font-size="20" fill="#F4D22F">✦</text><text class="spark" x="164" y="62" font-size="16" fill="#F4D22F" style="animation-delay:.6s">✦</text><text class="spark" x="168" y="150" font-size="14" fill="#F4D22F" style="animation-delay:1.1s">✦</text>' : ''}
+  </svg>`;
+}
+
+/* ================================================================
+   Draggable FAB Logic
+   ================================================================ */
+const buddyFab = document.querySelector('.buddy-fab');
+let isDraggingFab = false;
+let hasDraggedFab = false;
+let fabStartX, fabStartY, fabStartLeft, fabStartBottom;
+
+buddyFab.addEventListener('mousedown', startDragFab);
+buddyFab.addEventListener('touchstart', startDragFab, {passive: false});
+
+function startDragFab(e) {
+    if (e.type === 'mousedown' && e.button !== 0) return;
+    isDraggingFab = true;
+    hasDraggedFab = false;
+    buddyFab.style.transition = 'none';
+    
+    const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+    
+    const rect = buddyFab.getBoundingClientRect();
+    fabStartX = clientX;
+    fabStartY = clientY;
+    fabStartLeft = rect.left;
+    fabStartBottom = window.innerHeight - rect.bottom;
+    
+    document.addEventListener('mousemove', onDragFab);
+    document.addEventListener('touchmove', onDragFab, {passive: false});
+    document.addEventListener('mouseup', endDragFab);
+    document.addEventListener('touchend', endDragFab);
+}
+
+function onDragFab(e) {
+    if (!isDraggingFab) return;
+    hasDraggedFab = true;
+    if (e.cancelable) e.preventDefault(); 
+    
+    const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+    const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+    
+    const dx = clientX - fabStartX;
+    const dy = clientY - fabStartY;
+    
+    let newLeft = fabStartLeft + dx;
+    let newBottom = fabStartBottom - dy;
+    
+    newLeft = Math.max(10, Math.min(window.innerWidth - 70 - 10, newLeft));
+    newBottom = Math.max(10, Math.min(window.innerHeight - 70 - 10, newBottom));
+    
+    buddyFab.style.left = newLeft + 'px';
+    buddyFab.style.bottom = newBottom + 'px';
+    buddyFab.style.right = 'auto';
+}
+
+function endDragFab(e) {
+    if (!isDraggingFab) return;
+    isDraggingFab = false;
+    
+    document.removeEventListener('mousemove', onDragFab);
+    document.removeEventListener('touchmove', onDragFab);
+    document.removeEventListener('mouseup', endDragFab);
+    document.removeEventListener('touchend', endDragFab);
+    
+    const rect = buddyFab.getBoundingClientRect();
+    const centerX = window.innerWidth / 2;
+    
+    if (rect.left + rect.width/2 < centerX) {
+        buddyFab.style.left = '22px';
+    } else {
+        buddyFab.style.left = 'calc(100vw - 70px - 22px)';
+    }
+    
+    setTimeout(() => {
+        buddyFab.style.transition = 'transform 0.2s, left 0.3s ease-out, bottom 0.3s ease-out';
+    }, 10);
+    
+    if (hasDraggedFab) {
+        setTimeout(() => { hasDraggedFab = false; }, 100);
+    }
+}
+
+buddyFab.addEventListener('click', (e) => {
+    if (hasDraggedFab) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+    }
+    go('buddy');
+});
+
+// Bootstrap
+render();
+renderBuddy();
+startSafetyGame();
+loadScamQuestion();
+drawRunnerScene();
+</script>
+</body>
+</html>
